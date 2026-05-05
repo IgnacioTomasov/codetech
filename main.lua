@@ -9,14 +9,36 @@ function love.load()
   map = sti('maps/testMap.lua')
 
   -- jugador
+  anim8 = require 'libraries/anim8'
   player = {
-    x = 100,
-    y = 100,
-    w = 32,
-    h = 32,
-    speed = 200
-  }
+    --Posisicón inicial
+    x = 350,
+    y = 300,
+    w = 80, --
+    h = 30,
+    -- Movimiento
+    speed = 200,
+    speer_ini = 200,
+    }
+  
+  -- Resolver frames para animación: 
 
+    player.spriteSheet = love.graphics.newImage('sprites/bingo_row_1.png')
+    player.grid = anim8.newGrid(490,368,1962,368,0,0,2)
+    player.frames = player.grid('1-4', 1)
+    player.direction=1
+    
+    player.animations = {}
+    player.animations.caminar = anim8.newAnimation(player.frames, 0.1) 
+
+    --actualizar ancho de mi player:
+    -- player.w= player.grid.frameWidth
+    -- player.h= player.grid.frameHeight
+
+
+
+
+  -- Usar bump para crear jugador
   world:add(player, player.x, player.y, player.w, player.h)
 
   -- cargar colisiones desde Tiled
@@ -24,12 +46,29 @@ function love.load()
 end
 
 function love.update(dt)
+
+  local isMoving = false 
   local dx, dy = 0, 0
 
-  if love.keyboard.isDown("right") then dx = player.speed * dt end
-  if love.keyboard.isDown("left") then dx = -player.speed * dt end
-  if love.keyboard.isDown("down") then dy = player.speed * dt end
-  if love.keyboard.isDown("up") then dy = -player.speed * dt end
+  if love.keyboard.isDown("right") then 
+    player.direction=1
+    dx = player.speed * dt 
+    isMoving = true
+  end
+  if love.keyboard.isDown("left") then
+    player.direction=-1
+    dx = -player.speed * dt
+    isMoving = true
+  end
+
+  if love.keyboard.isDown("down") then
+    dy = player.speed * dt
+    isMoving = true
+  end
+  if love.keyboard.isDown("up") then
+    dy = -player.speed * dt
+    isMoving = true
+  end
 
   local goalX = player.x + dx
   local goalY = player.y + dy
@@ -39,6 +78,11 @@ function love.update(dt)
 
   player.x = actualX
   player.y = actualY
+
+  if isMoving then
+      player.animations.caminar:update(dt)
+  end
+
 end
 
 function love.draw()
@@ -46,6 +90,22 @@ function love.draw()
 
   -- dibujar jugador
   love.graphics.rectangle("fill", player.x, player.y, player.w, player.h)
+
+  local fw = player.grid.frameWidth
+  local fh = player.grid.frameHeight
+  local alinea =  (math.abs(player.direction) - player.direction) / 2
+
+  player.animations.caminar:draw(
+                player.spriteSheet,
+                player.x,
+                player.y,
+                nil,
+                0.2 * player.direction,
+                0.2,
+                (fw-100) * alinea,   -- cuando direction es negativa, mutiplica por -2 el ofset del ancho total
+                fh / 2   -- oy (centro en Y)
+            )
+
 
   drawCollisions(true)
 end
