@@ -1,171 +1,108 @@
+local sti = require("libraries/sti")
+local bump = require("libraries/bump")
+
 function love.load()
+  -- mundo de colisiones
+  world = bump.newWorld(64)
 
-    wf = require "libraries/windfield"
-    world = wf.newWorld(0,0)
+  -- cargar mapa
+  map = sti('maps/testMap.lua')
 
-    camera = require 'libraries/camera'
-    cam = camera()
+  -- jugador
+  player = {
+    x = 100,
+    y = 100,
+    w = 32,
+    h = 32,
+    speed = 200
+  }
 
-    anim8 = require 'libraries/anim8'
+  world:add(player, player.x, player.y, player.w, player.h)
 
-    sti = require 'libraries/sti'
-
-    gameMap = sti('maps/testMap.lua')
-
-    player = {}
-    --Punto inicial:
-    player.x = 400
-    player.y = 400
-
-    player.collider = world:newRectangleCollider(player.x, player.y, 80, 40)
-    player.collider:setFixedRotation(true)
-    
-
-    player.speed = 200
-    player.speed_ini = 200
-    player.spriteSheet = love.graphics.newImage('sprites/bingo_row_1.png')
-    player.grid = anim8.newGrid(490,368,1962,368,0,0,2)
-    player.frames = player.grid('1-4', 1)
-    player.direction=1
-    
-
-    player.animations = {}
-
-    player.animations.right = anim8.newAnimation(player.frames, 0.1) 
-
-
-    backgroud = love.graphics.newImage('sprites/background.png')
-
-    walls = {}
-    if gameMap.layers["Walls"] then
-        for i, obj in ipairs(gameMap.layers["Walls"].objects) do
-            local wall = world:newRectangleCollider(obj.x,obj.y,obj.width,obj.height)
-            wall:setType('static')
-            table.insert(walls, wall)
-        end
-    end
+  -- cargar colisiones desde Tiled
+  solveCollision("Arboles", "solid")
 end
 
 function love.update(dt)
+  local dx, dy = 0, 0
 
-    --si la direccion es contraria a la flecha, actualiza la direccion:
+  if love.keyboard.isDown("right") then dx = player.speed * dt end
+  if love.keyboard.isDown("left") then dx = -player.speed * dt end
+  if love.keyboard.isDown("down") then dy = player.speed * dt end
+  if love.keyboard.isDown("up") then dy = -player.speed * dt end
 
-    if love.keyboard.isDown("right") and player.direction == -1 then
-        player.direction = 1
-    end
-    if love.keyboard.isDown("left") and player.direction == 1 then
-        player.direction = -1
-    end
+  local goalX = player.x + dx
+  local goalY = player.y + dy
 
-    -- acelerar movimiento al apretar espacion:
+  --Intenta mover el objeto desde su posición actual → hacia (goalX, goalY)
+  local actualX, actualY, cols, len = world:move(player, goalX, goalY)
 
-    if love.keyboard.isDown("space") then
-        player.speed = player.speed_ini * 2
-    else
-        player.speed = player.speed_ini
-    end
-
-
-    --Logica de navegacion
-    local isMoving = false 
-
-    local vx = 0
-    local vy = 0
-    
-    if love.keyboard.isDown("right") then
-        vx = player.speed 
-        isMoving = true
-    end
-    if love.keyboard.isDown("left") then
-        vx = player.speed * -1
-        isMoving = true
-    end
-
-    if love.keyboard.isDown("up") then
-        vy = player.speed * -1
-        isMoving = true
-    end
-
-    if love.keyboard.isDown("down") then
-        vy = player.speed
-        isMoving = true
-    end
-
-    player.collider:setLinearVelocity(vx, vy)
-
-    
-    if isMoving then
-        player.animations.right:update(dt)
-    end
-
-    -- Actualizacion de la posición de la cámara:
-    cam:lookAt(player.x, player.y)
-
-    local w = love.graphics.getWidth()
-    local h = love.graphics.getHeight()
-
-    if cam.x < w/2 then
-        cam.x = w/2
-    end
-    if cam.y < h/2 then
-        cam.y = h/2
-    end
-
-    local mapWidth = gameMap.tilewidth * gameMap.width
-    local mapHeight = gameMap.tileheight * gameMap.height   
-
-    if cam.x > mapWidth - w/2 then
-        cam.x = mapWidth - w/2
-    end
-    if cam.y > mapHeight - h/2 then
-        cam.y = mapHeight - h/2
-    end 
-
-    -- Colisiones:
-    world:update(dt)
-    player.x = player.collider:getX()
-    player.y = player.collider:getY()
-
-
-
-
-
+  player.x = actualX
+  player.y = actualY
 end
 
-
-
-
 function love.draw()
+  map:draw()
 
-    -- love.graphics.circle("fill", player.x, player.y, 100)
-    -- love.graphics.draw(backgroud, 0, 0)
-    -- love.graphics.draw(player.sprite, player.x, player.y) 
-    
-    cam:attach()
+  -- dibujar jugador
+  love.graphics.rectangle("fill", player.x, player.y, player.w, player.h)
 
-        -- gameMap:draw() -- No se pueden dibujar todas las capas juntas de Tiles cuando se usa cámara.
+  drawCollisions(true)
+end
 
-        gameMap:drawLayer(gameMap.layers["Base"])
-        gameMap:drawLayer(gameMap.layers["Arboles"])
-        
-        player.animations.right:draw(
-                player.spriteSheet,
-                player.x,
-                player.y,
-                nil,
-                0.2 * player.direction,
-                0.2,
-                490 / 2,  -- ox (centro en X)
-                3*368 / 4   -- oy (centro en Y)
-            )
+--HELPERS:
 
-            world:draw() -- Ver colisiones
+function getLayerByName(map, name)
+  for _, layer in ipairs(map.layers) do
+    if layer.name == name then
+      return layer
+    end
+  end
+  return nil
+end
 
-    cam:detach()
-    
+function solveCollision(layerName, solidName)
 
+  local wallCount = 0
+  local layer = getLayerByName(map, "Arboles")
+  local width = layer.width
+  local tileW = map.tilewidth
+  local tileH = map.tileheight
 
-    local width, height = love.graphics.getDimensions()
-    love.graphics.print("Resolucion: " .. width .. " x " .. height, 10, 10)
+  -- print("Layer detected name:",layer.name)
 
+  for y = 1, layer.height do
+    for x = 1, layer.width do
+      local tile = layer.data[y][x]
+
+      -- considerar huecos (nil) explícitamente
+      if tile and tile.properties and tile.properties[solidName] then
+        local collider = { type = "wall" }
+
+        world:add(
+          collider,
+          (x - 1) * tileW,
+          (y - 1) * tileH,
+          tileW,
+          tileH
+        )
+
+        local wallCount = wallCount + 1
+      end
+    end
+  end
+  -- print("walls:", wallCount)
+end
+
+function drawCollisions(enabled)
+  if not enabled then return end
+
+  love.graphics.setColor(1, 0, 0, 0.4)
+  for item in pairs(world.rects) do
+    if item ~= player then
+      local x, y, w, h = world:getRect(item)
+      love.graphics.rectangle("fill", x, y, w, h)
+    end
+  end
+  love.graphics.setColor(1, 1, 1, 1)
 end
