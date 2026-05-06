@@ -42,7 +42,7 @@ function love.draw()
   cam:attach()
     map:drawLayer(map.layers["Base"])
     map:drawLayer(map.layers["Arboles"])
-    player:draw()
+    player:draw(true)
     drawCollisions(true)
   cam:detach()
   

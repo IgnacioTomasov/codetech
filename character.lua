@@ -12,7 +12,7 @@ function character.new()
 
     self.x = 350
     self.y = 300
-    self.w = 80
+    self.w = 60
     self.h = 30
     -- Movimiento
     self.speed = 200
@@ -55,10 +55,12 @@ function character:update(dt)
 
 end
 
-function character:draw()
+function character:draw(showCharRectangle)
 
-    -- dibujar jugador
-    love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
+    if showCharRectangle then
+        -- dibujar jugador
+        love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
+    end
 
     local fw = self.grid.frameWidth
     local fh = self.grid.frameHeight
@@ -69,8 +71,8 @@ function character:draw()
                     self.x,
                     self.y,
                     nil,
-                    0.2 * self.direction,
-                    0.2,
+                    0.18 * self.direction,
+                    0.18,
                     (fw-100) * alinea,   -- cuando direction es negativa, mutiplica por -2 el ofset del ancho total
                     fh / 2   -- oy (centro en Y)
                 )
