@@ -1,15 +1,16 @@
 local sti = require("libraries/sti")
+local map = sti('maps/testMap.lua')
+
 local bump = require("libraries/bump")
+local world = bump.newWorld(64)
+
 local Character = require("character")
+local player = Character.new()
+
+-- nota, las funciones inferiores pueden ver las variables locales creadas. No así las superiores.
 
 function love.load()
-  -- mundo de colisiones
-  world = bump.newWorld(64)
-  player = Character.new()
-  -- cargar mapa
-  map = sti('maps/testMap.lua')
 
-  -- Usar bump para crear jugador
   world:add(player, player.x, player.y, player.w, player.h)
 
   -- cargar colisiones desde Tiled
@@ -24,59 +25,27 @@ function love.update(dt)
   if love.keyboard.isDown("right") then 
     player.direction=1
     dx = player.speed * dt 
-    isMoving = true
   end
   if love.keyboard.isDown("left") then
     player.direction=-1
     dx = -player.speed * dt
-    isMoving = true
   end
 
   if love.keyboard.isDown("down") then
     dy = player.speed * dt
-    isMoving = true
   end
   if love.keyboard.isDown("up") then
     dy = -player.speed * dt
-    isMoving = true
   end
 
-  local goalX = player.x + dx
-  local goalY = player.y + dy
-
-  --Intenta mover el objeto desde su posición actual → hacia (goalX, goalY)
-  local actualX, actualY, cols, len = world:move(player, goalX, goalY)
-
-  player.x = actualX
-  player.y = actualY
-
-  if isMoving then
-      player.animations.caminar:update(dt)
-  end
+  player:move(dx, dy, world)
+  player:update(dt)
 
 end
 
 function love.draw()
   map:draw()
-
-  -- dibujar jugador
-  love.graphics.rectangle("fill", player.x, player.y, player.w, player.h)
-
-  local fw = player.grid.frameWidth
-  local fh = player.grid.frameHeight
-  local alinea =  (math.abs(player.direction) - player.direction) / 2
-
-  player.animations.caminar:draw(
-                player.spriteSheet,
-                player.x,
-                player.y,
-                nil,
-                0.2 * player.direction,
-                0.2,
-                (fw-100) * alinea,   -- cuando direction es negativa, mutiplica por -2 el ofset del ancho total
-                fh / 2   -- oy (centro en Y)
-            )
-
+  player:draw()
 
   drawCollisions(true)
 end
