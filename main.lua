@@ -9,6 +9,12 @@ local player = character.new()
 
 local inputControl = require("input")
 
+
+local camera = require 'libraries/camera'
+local cam = camera()
+local cameraControl = require("camera")
+
+
 -- nota, las funciones inferiores pueden ver las variables locales creadas. No así las superiores.
 
 function love.load()
@@ -24,15 +30,23 @@ function love.update(dt)
   local dx, dy = inputControl.moveIntention(dt, player)
 
   player:move(dx, dy, world)
+  cameraControl.limitsCorrection(cam, map, player.x, player.y)
   player:update(dt)
+
+  
 
 end
 
 function love.draw()
-  map:draw()
-  player:draw()
 
-  drawCollisions(true)
+  cam:attach()
+    map:drawLayer(map.layers["Base"])
+    map:drawLayer(map.layers["Arboles"])
+    player:draw()
+    drawCollisions(true)
+  cam:detach()
+  
+  
 end
 
 --HELPERS:
