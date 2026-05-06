@@ -1,14 +1,14 @@
--- se crea una plantilla "Character" la cual tendrá metodos para trabajar. La idea es que cualquier personaje,
+-- se crea una plantilla "character" la cual tendrá metodos para trabajar. La idea es que cualquier personaje,
 -- pueda instanciarse desde aquí.
 
 local anim8 = require("libraries.anim8")
 
-local Character = {}
-Character.__index = Character
+local character = {}
+character.__index = character
 
-function Character.new()
-    -- Se crea una nueva tabla, self, que buscará en Character sus atributos.”
-    local self = setmetatable({}, Character)
+function character.new()
+    -- Se crea una nueva tabla, self, que buscará en character sus atributos.”
+    local self = setmetatable({}, character)
 
     self.x = 350
     self.y = 300
@@ -32,7 +32,7 @@ function Character.new()
     return self
 end
 
-function Character:move(dx, dy, world)
+function character:move(dx, dy, world)
 
     --Inferir si se está moviendo:
     self.isMoving = dx ~= 0 or dy ~= 0
@@ -47,7 +47,7 @@ function Character:move(dx, dy, world)
 
 end
 
-function Character:update(dt)
+function character:update(dt)
 
     if self.isMoving then
         self.animations.caminar:update(dt)
@@ -55,7 +55,7 @@ function Character:update(dt)
 
 end
 
-function Character:draw()
+function character:draw()
 
     -- dibujar jugador
     love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
@@ -77,4 +77,4 @@ function Character:draw()
 
 end
 
-return Character
+return character

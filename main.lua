@@ -4,8 +4,10 @@ local map = sti('maps/testMap.lua')
 local bump = require("libraries/bump")
 local world = bump.newWorld(64)
 
-local Character = require("character")
-local player = Character.new()
+local character = require("character")
+local player = character.new()
+
+local inputControl = require("input")
 
 -- nota, las funciones inferiores pueden ver las variables locales creadas. No así las superiores.
 
@@ -19,24 +21,7 @@ end
 
 function love.update(dt)
 
-  local isMoving = false 
-  local dx, dy = 0, 0
-
-  if love.keyboard.isDown("right") then 
-    player.direction=1
-    dx = player.speed * dt 
-  end
-  if love.keyboard.isDown("left") then
-    player.direction=-1
-    dx = -player.speed * dt
-  end
-
-  if love.keyboard.isDown("down") then
-    dy = player.speed * dt
-  end
-  if love.keyboard.isDown("up") then
-    dy = -player.speed * dt
-  end
+  local dx, dy = inputControl.moveIntention(dt, player)
 
   player:move(dx, dy, world)
   player:update(dt)
