@@ -4,15 +4,15 @@ local map = sti('maps/testMap.lua')
 local bump = require("libraries/bump")
 local world = bump.newWorld(64)
 
-local character = require("character")
+local character = require("src.character")
 local player = character.new()
 
-local inputControl = require("input")
+local inputControl = require("src.input")
 
 
 local camera = require 'libraries/camera'
 local cam = camera()
-local cameraControl = require("camera")
+local cameraControl = require("src.camera")
 
 
 -- nota, las funciones inferiores pueden ver las variables locales creadas. No así las superiores.
