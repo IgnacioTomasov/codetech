@@ -1,42 +1,13 @@
 local sti = require("libraries/sti")
 local bump = require("libraries/bump")
+local Character = require("character")
 
 function love.load()
   -- mundo de colisiones
   world = bump.newWorld(64)
-
+  player = Character.new()
   -- cargar mapa
   map = sti('maps/testMap.lua')
-
-  -- jugador
-  anim8 = require 'libraries/anim8'
-  player = {
-    --Posisicón inicial
-    x = 350,
-    y = 300,
-    w = 80, --
-    h = 30,
-    -- Movimiento
-    speed = 200,
-    speer_ini = 200,
-    }
-  
-  -- Resolver frames para animación: 
-
-    player.spriteSheet = love.graphics.newImage('sprites/bingo_row_1.png')
-    player.grid = anim8.newGrid(490,368,1962,368,0,0,2)
-    player.frames = player.grid('1-4', 1)
-    player.direction=1
-    
-    player.animations = {}
-    player.animations.caminar = anim8.newAnimation(player.frames, 0.1) 
-
-    --actualizar ancho de mi player:
-    -- player.w= player.grid.frameWidth
-    -- player.h= player.grid.frameHeight
-
-
-
 
   -- Usar bump para crear jugador
   world:add(player, player.x, player.y, player.w, player.h)
