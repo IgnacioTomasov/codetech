@@ -37,6 +37,9 @@ function love.update(dt)
   player:move(dx1, dy1, world)
   playe2:move(dx2, dy2, world)
 
+  inputControl.tailReaction(player, playe2, 100)
+
+
   cameraControl.limitsCorrection(cam, map, player.x, player.y)
   player:update(dt)
   playe2:update(dt)

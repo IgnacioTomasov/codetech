@@ -1,5 +1,7 @@
 local inputControl = {}
 
+local interactions = require("src.interactions")
+
 function inputControl.moveIntention(dt, character)
     --Actualiza los atributos de "intención de cambios de posición" de un caracter. 
     local dx, dy = 0, 0
@@ -63,7 +65,16 @@ function inputControl.randomMoveIntention(dt, character, time2change)
 end
 
 
+function inputControl.tailReaction(player1, player2, threshold)
+    
+    local isClose = interactions.isClose(player1, player2, threshold)
 
+    if isClose and love.keyboard.isDown("space") then
+        print("Están cerca, mover colita")
+    -- else
+    --     print("Me ejecuté")
+    end
+end
 
 
 return inputControl
