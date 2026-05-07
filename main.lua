@@ -5,8 +5,8 @@ local bump = require("libraries/bump")
 local world = bump.newWorld(64)
 
 local character = require("src.character")
-local player = character.new(350,300,60,30,200,'sprites/bingo_row_1.png')
-local playe2 = character.new(24*64,24*64,60,30,100,'sprites/praga_row_1.png')
+local player = character.new(350,300,60,30,200,'sprites/bingo_grid.png')
+local playe2 = character.new(4*64,4*64,60,30,100,'sprites/praga_grid.png')
 
 local inputControl = require("src.input")
 
@@ -37,7 +37,7 @@ function love.update(dt)
   player:move(dx1, dy1, world)
   playe2:move(dx2, dy2, world)
 
-  inputControl.tailReaction(player, playe2, 100)
+  inputControl.tailReaction(player, playe2, 80)
 
 
   cameraControl.limitsCorrection(cam, map, player.x, player.y)

@@ -70,9 +70,14 @@ function inputControl.tailReaction(player1, player2, threshold)
     local isClose = interactions.isClose(player1, player2, threshold)
 
     if isClose and love.keyboard.isDown("space") then
-        print("Están cerca, mover colita")
-    -- else
-    --     print("Me ejecuté")
+        -- print("Están cerca, mover colita")
+        player1.isInteracting = true
+        player2.isInteracting = true
+    else
+        player1.isInteracting = false
+        player2.isInteracting = false
+        -- print("Me ejecuté")
+    
     end
 end
 

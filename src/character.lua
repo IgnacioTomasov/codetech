@@ -22,16 +22,28 @@ function character.new(x,y,w,h,speed,spriteName)
     self.last_dx = 0
     self.last_dy = 0
 
-    -- Resolver frames para animación: 
-    self.spriteSheet = love.graphics.newImage(spriteName)
-    self.grid = anim8.newGrid(490,368,1962,368,0,0,2)
-    self.frames = self.grid('1-4', 1)
+    self.isInteracting = false -- se actualiza con interactions.isClose
+    -- Resolver frames para animación:
     self.direction=1
-    
-    self.animations = {}
-    self.animations.caminar = anim8.newAnimation(self.frames, 0.1) 
+    self.characterScale=0.25
 
-    self.frames = self.grid("1-4", 1)
+    self.animations = {}
+
+    self.spriteSheet = love.graphics.newImage(spriteName)
+    self.grid = anim8.newGrid(math.floor(self.spriteSheet:getWidth()/4),
+                              math.floor(self.spriteSheet:getHeight()/2),
+                                self.spriteSheet:getWidth(),
+                                self.spriteSheet:getHeight(),
+                                0, --left
+                                0, --top
+                                -5) -- border
+
+    self.frames = self.grid('1-4', 1) 
+    self.animations.walk = anim8.newAnimation(self.frames, 0.1) 
+
+    self.frames_2 = self.grid('1-4', 2) 
+    self.animations.moveTail = anim8.newAnimation(self.frames_2, 0.1) 
+
 
     return self
 end
@@ -66,8 +78,12 @@ end
 
 function character:update(dt)
 
-    if self.isMoving then
-        self.animations.caminar:update(dt)
+    if not self.isInteracting then
+        if self.isMoving then
+            self.animations.walk:update(dt)
+        end
+    else
+        self.animations.moveTail:update(dt)
     end
 
 end
@@ -83,16 +99,32 @@ function character:draw(showCharRectangle)
     local fh = self.grid.frameHeight
     local alinea =  (math.abs(self.direction) - self.direction) / 2
 
-    self.animations.caminar:draw(
-                    self.spriteSheet,
-                    self.x,
-                    self.y,
-                    nil,
-                    0.18 * self.direction,
-                    0.18,
-                    (fw-100) * alinea,   -- cuando direction es negativa, mutiplica por -2 el ofset del ancho total
-                    fh / 2   -- oy (centro en Y)
-                )
+    if not self.isInteracting then
+            self.animations.walk:draw(
+            self.spriteSheet,
+            self.x,
+            self.y,
+            nil,
+            self.characterScale * self.direction,
+            self.characterScale,
+            (fw-100) * alinea,   -- cuando direction es negativa, mutiplica por -2 el ofset del ancho total
+            fh / 2   -- oy (centro en Y)
+        )
+                else
+        self.animations.moveTail:draw(
+                        self.spriteSheet,
+                        self.x,
+                        self.y,
+                        nil,
+                        self.characterScale * self.direction,
+                        self.characterScale,
+                        (fw-100) * alinea,   -- cuando direction es negativa, mutiplica por -2 el ofset del ancho total
+                        fh / 2   -- oy (centro en Y)
+                    )
+
+
+    end
+
 
 end
 

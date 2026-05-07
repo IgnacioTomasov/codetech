@@ -11,7 +11,6 @@ function interactions.isClose(player1, player2, threshold)
     if distance < threshold then
         close = true
     end
-
     -- print("distance:", distance, "| close:", close)
 
     return close
