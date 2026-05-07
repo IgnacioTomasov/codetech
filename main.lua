@@ -5,7 +5,8 @@ local bump = require("libraries/bump")
 local world = bump.newWorld(64)
 
 local character = require("src.character")
-local player = character.new()
+local player = character.new(350,300,60,30,200,'sprites/bingo_row_1.png')
+local playe2 = character.new(24*64,24*64,60,30,100,'sprites/praga_row_1.png')
 
 local inputControl = require("src.input")
 
@@ -20,6 +21,7 @@ local cameraControl = require("src.camera")
 function love.load()
 
   world:add(player, player.x, player.y, player.w, player.h)
+  world:add(playe2, playe2.x, playe2.y, playe2.w, playe2.h)
 
   -- cargar colisiones desde Tiled
   solveCollision("Arboles", "solid")
@@ -27,11 +29,15 @@ end
 
 function love.update(dt)
 
-  local dx, dy = inputControl.moveIntention(dt, player)
+  local dx1, dy1 = inputControl.moveIntention(dt, player)
+  local dx2, dy2 = inputControl.randomMoveIntention(dt, playe2, 1)
 
-  player:move(dx, dy, world)
+  player:move(dx1, dy1, world)
+  playe2:move(dx2, dy2, world)
+
   cameraControl.limitsCorrection(cam, map, player.x, player.y)
   player:update(dt)
+  playe2:update(dt)
 
   
 
@@ -42,6 +48,7 @@ function love.draw()
   cam:attach()
     map:drawLayer(map.layers["Base"])
     map:drawLayer(map.layers["Arboles"])
+    playe2:draw(false)
     player:draw(false)
     drawCollisions(false)
   cam:detach()

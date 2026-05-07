@@ -6,20 +6,24 @@ local anim8 = require("libraries.anim8")
 local character = {}
 character.__index = character
 
-function character.new()
+function character.new(x,y,w,h,speed,spriteName)
     -- Se crea una nueva tabla, self, que buscará en character sus atributos.”
     local self = setmetatable({}, character)
 
-    self.x = 350
-    self.y = 300
-    self.w = 60
-    self.h = 30
+    self.x = x
+    self.y = y
+    self.w = w
+    self.h = h
+    self.speed = speed
     -- Movimiento
-    self.speed = 200
-    self.speer_ini = 200
+
+    self.timeLastMove = 0
+    self.timeChangeDirection=0 --tiempo cuando ocurrió el último cambio de tasa de movimiento (no movimiento en sí)
+    self.last_dx = 0
+    self.last_dy = 0
 
     -- Resolver frames para animación: 
-    self.spriteSheet = love.graphics.newImage('sprites/bingo_row_1.png')
+    self.spriteSheet = love.graphics.newImage(spriteName)
     self.grid = anim8.newGrid(490,368,1962,368,0,0,2)
     self.frames = self.grid('1-4', 1)
     self.direction=1
@@ -36,6 +40,19 @@ function character:move(dx, dy, world)
 
     --Inferir si se está moviendo:
     self.isMoving = dx ~= 0 or dy ~= 0
+
+    if self.isMoving then
+        self.timeLastMove = love.timer.getTime()
+    end
+
+    if dx ~= self.last_dx or dy ~= self.last_dy then
+        self.timeChangeDirection = love.timer.getTime()
+        -- print("cambio de dirección", self.timeChangeDirection)
+    end
+
+    self.last_dx = dx
+    self.last_dy = dy
+
 
     local goalX = self.x + dx
     local goalY = self.y + dy
