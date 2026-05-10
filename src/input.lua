@@ -32,9 +32,13 @@ function inputControl.moveIntention(dt, character)
 end
 
 function inputControl.randomMoveIntention(dt, character, time2change)
-    -- genera movimientos al azar. Solo se mueve cuado cualquier tecla está presionada
+    -- genera movimientos al azar. 
 
     local dx, dy = 0, 0
+
+    if character.isCompleted then
+        return dx, dy
+    end
 
 
     local timeSinceChangeDirection = love.timer.getTime() - character.timeChangeDirection
@@ -73,6 +77,8 @@ function inputControl.tailReaction(player1, player2, threshold)
         -- print("Están cerca, mover colita")
         player1.isInteracting = true
         player2.isInteracting = true
+        player2.isCompleted = true -- <-- define que "completó su misión"
+
     else
         player1.isInteracting = false
         player2.isInteracting = false

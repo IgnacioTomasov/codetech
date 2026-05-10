@@ -23,6 +23,11 @@ function character.new(x,y,w,h,speed,spriteName)
     self.last_dy = 0
 
     self.isInteracting = false -- se actualiza con interactions.isClose
+    self.isClose = false
+    self.isMoving = false
+    self.isCompleted = false
+
+    self.direction=1
     -- Resolver frames para animación:
     self.direction=1
     self.characterScale=0.25
@@ -62,10 +67,6 @@ function character:move(dx, dy, world)
         -- print("cambio de dirección", self.timeChangeDirection)
     end
 
-    self.last_dx = dx
-    self.last_dy = dy
-
-
     local goalX = self.x + dx
     local goalY = self.y + dy
 
@@ -74,9 +75,17 @@ function character:move(dx, dy, world)
     self.x = actualX
     self.y = actualY
 
+    self.last_dx = dx
+    self.last_dy = dy
+
 end
 
 function character:update(dt)
+
+    if self.isCompleted then
+        self.animations.moveTail:update(dt)
+        return
+    end
 
     if not self.isInteracting then
         if self.isMoving then
@@ -99,7 +108,7 @@ function character:draw(showCharRectangle)
     local fh = self.grid.frameHeight
     local alinea =  (math.abs(self.direction) - self.direction) / 2
 
-    if not self.isInteracting then
+    local function walk()
             self.animations.walk:draw(
             self.spriteSheet,
             self.x,
@@ -110,8 +119,11 @@ function character:draw(showCharRectangle)
             (fw-100) * alinea,   -- cuando direction es negativa, mutiplica por -2 el ofset del ancho total
             fh / 2   -- oy (centro en Y)
         )
-                else
-        self.animations.moveTail:draw(
+
+    end
+
+    local function moveTail()
+                self.animations.moveTail:draw(
                         self.spriteSheet,
                         self.x,
                         self.y,
@@ -121,8 +133,20 @@ function character:draw(showCharRectangle)
                         (fw-100) * alinea,   -- cuando direction es negativa, mutiplica por -2 el ofset del ancho total
                         fh / 2   -- oy (centro en Y)
                     )
+    end
 
-
+    if self.isMoving then
+        walk()
+        return
+    elseif (not self.isCompleted) then
+         moveTail()
+        return
+    elseif self.isInteracting then
+        moveTail()
+        return
+    else
+        moveTail()
+        return
     end
 
 

@@ -4,7 +4,7 @@ local map = sti('maps/testMap.lua')
 local bump = require("libraries/bump")
 local world = bump.newWorld(64)
 
-local character = require("src.character")
+local character = require("src.entities.character")
 local player = character.new(350,300,60,30,200,'sprites/bingo_grid.png')
 local playe2 = character.new(4*64,4*64,60,30,100,'sprites/praga_grid.png')
 
