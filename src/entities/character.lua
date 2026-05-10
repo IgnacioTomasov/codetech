@@ -82,17 +82,19 @@ end
 
 function character:update(dt)
 
-    if self.isCompleted then
+
+    if self.isMoving then
+        self.animations.walk:update(dt)
+        return
+    elseif (not self.isCompleted) then
+         self.animations.moveTail:update(dt)
+        return
+    elseif self.isInteracting then
         self.animations.moveTail:update(dt)
         return
-    end
-
-    if not self.isInteracting then
-        if self.isMoving then
-            self.animations.walk:update(dt)
-        end
     else
         self.animations.moveTail:update(dt)
+        return
     end
 
 end
@@ -135,6 +137,7 @@ function character:draw(showCharRectangle)
                     )
     end
 
+    -- Recordar mantener la consistencia con la capa de update
     if self.isMoving then
         walk()
         return
