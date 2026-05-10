@@ -19,6 +19,8 @@ function camaraControl.limitsCorrection(cam,map,x,y)
     local mapWidth = map.tilewidth * map.width
     local mapHeight = map.tileheight * map.height   
 
+    -- print("tamaño del mapa:", mapWidth,mapHeight)
+
     if cam.x > mapWidth - w/2 then
         cam.x = mapWidth - w/2
     end
