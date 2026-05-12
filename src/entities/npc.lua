@@ -25,7 +25,7 @@ for _, pos in ipairs(npcPositions) do
         pos.y,
         60,
         30,
-        100,
+        50,
         'sprites/praga_grid.png'
     )
 

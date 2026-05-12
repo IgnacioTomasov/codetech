@@ -5,12 +5,17 @@ StateManager.stack = {}
 
 function StateManager:push(state)
 
-    -- Agregar estado al TOP del stack
     table.insert(self.stack, state)
 
-    -- Ejecutar load una vez
-    if state.load then
+    -- Ejecutar load solo una vez
+    if not state.loaded and state.load then
         state:load()
+        state.loaded = true
+    end
+
+    -- Ejecutar enter cada vez
+    if state.enter then
+        state:enter()
     end
 end
 

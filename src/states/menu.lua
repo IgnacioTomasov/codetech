@@ -13,10 +13,6 @@ menu.selected = 1
 local FONT_SIZE = 32
 local TITLE = "Buscando a Praga"
 
-local screenWidth = love.graphics.getWidth()
-
-
-
 
 function menu:load()
     self.font = love.graphics.newFont(FONT_SIZE)
@@ -29,7 +25,8 @@ end
 function menu:draw()
 
     love.graphics.setFont(self.fontTitle)
-
+    
+    local screenWidth = love.graphics.getWidth()
     local titleWidth = self.fontTitle:getWidth(TITLE)
     local x = (screenWidth - titleWidth) / 2
     love.graphics.print(TITLE,x,100)
