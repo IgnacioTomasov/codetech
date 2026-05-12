@@ -54,7 +54,9 @@ function game:draw()
   
 end
 
-function game:keypressed()
+function game:keypressed(key)
+
+
 end
 
 
