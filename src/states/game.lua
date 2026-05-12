@@ -1,19 +1,16 @@
 local StateManager = require("src.managers.state_manager")
 
 local sti = require("libraries/sti")
-local map = sti('maps/testMap.lua')
 
 local bump = require("libraries/bump")
-local world = bump.newWorld(64)
 
 local character = require("src.entities.character")
-local player = character.new(350,300,60,30,200,'sprites/bingo_grid.png')
 local npc = require("src.entities.npc")
 
 local inputControl = require("src.input")
 
 local camera = require 'libraries/camera'
-local cam = camera()
+
 local cameraControl = require("src.camera")
 
 local collisions = require("src.collisions")
@@ -23,36 +20,46 @@ local game = {}
 
 function game:load()
 
-  world:add(player, player.x, player.y, player.w, player.h)
-  npc.worldAdd(world, npcs)
+    self.map = sti('maps/testMap.lua')
+ 
+    self.world = bump.newWorld(64)
 
-  -- cargar colisiones desde Tiled
-  collisions.solve("Arboles", "solid", world, map)
+    self.player = character.new(350,300,60,30,200,'sprites/bingo_grid.png')
+
+    self.cam = camera()
+
+    self.world:add(self.player, self.player.x, self.player.y, self.player.w, self.player.h)
+    npc.worldAdd(self.world, npcs)
+
+    -- cargar colisiones desde Tiled
+    collisions.solve("Arboles", "solid", self.world, self.map)
 end
 
 function game:update(dt)
 
   --resuleve colisiones y mueve.
-  local dx1, dy1 = inputControl.moveIntention(dt, player)
-  player:move(dx1, dy1, world)
+  local dx1, dy1 = inputControl.moveIntention(dt, self.player)
+  self.player:move(dx1, dy1, self.world)
   
-  npc.move(dt, world, player)
+  npc.move(dt, self.world, self.player)
 
-  cameraControl.limitsCorrection(cam, map, player.x, player.y)
-  player:update(dt)
+  cameraControl.limitsCorrection(self.cam, self.map, self.player.x, self.player.y)
+  self.player:update(dt)
   npc.update(dt)
 
 end
 
 function game:draw()
 
-  cam:attach()
-    map:drawLayer(map.layers["Base"])
-    map:drawLayer(map.layers["Arboles"])
+  self.cam:attach()
+    self.map:drawLayer(self.map.layers["Base"])
+    self.map:drawLayer(self.map.layers["Arboles"])
     npc.draw()
-    player:draw(false)
-    collisions.draw(false, world, player)
-  cam:detach()
+    self.player:draw(false)
+    collisions.draw(false, self.world, self.player)
+  self.cam:detach()
+
+  game:drawHud()
   
 end
 
@@ -65,5 +72,31 @@ function game:keypressed(key)
 end
 
 
-return game
+function game:drawHud()
 
+    local completed = npc.getCompletedCount()
+    local total = npc.getTotalCount()
+
+    local x = 20
+    local y = 20
+    local width = 310
+    local height = 50    
+
+    love.graphics.setColor(0, 0, 0, 0.7)
+    love.graphics.rectangle("fill", x, y, width, height)
+
+    love.graphics.setColor(1, 1, 1)
+    love.graphics.rectangle("line", x, y, width, height)
+
+    love.graphics.print(
+        "PRAGAS: " .. completed .. " de " .. total,
+        x + 20,
+        y + 8
+    )
+
+    love.graphics.setColor(1,1,1)
+
+end
+
+
+return game

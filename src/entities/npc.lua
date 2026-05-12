@@ -60,4 +60,25 @@ function npc.draw()
     end
 end
 
+function npc.getAll()
+    return npcs
+end
+
+function npc.getCompletedCount()
+
+    local completed = 0
+
+    for _, entity in ipairs(npcs) do
+        if entity.isCompleted then
+            completed = completed + 1
+        end
+    end
+
+    return completed
+end
+
+function npc.getTotalCount()
+    return #npcs
+end
+
 return npc
