@@ -1,3 +1,5 @@
+local StateManager = require("src.managers.state_manager")
+
 local sti = require("libraries/sti")
 local map = sti('maps/testMap.lua')
 
@@ -56,7 +58,10 @@ end
 
 function game:keypressed(key)
 
-
+    if key == "return" then
+        local PauseState = require("src.states.pause")
+        StateManager:push(PauseState)
+    end
 end
 
 
