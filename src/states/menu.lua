@@ -11,7 +11,7 @@ menu.options = {
 menu.selected = 1
 
 local FONT_SIZE = 32
-local TITLE = "Buscando a Praga"
+local TITLE = "CODETech"
 
 
 function menu:load()
