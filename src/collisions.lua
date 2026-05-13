@@ -12,7 +12,7 @@ end
 function collisions.solve(layerName, solidName, world, map)
 
   local wallCount = 0
-  local layer = getLayerByName(map, "Arboles")
+  local layer = getLayerByName(map, layerName)
   local width = layer.width
   local tileW = map.tilewidth
   local tileH = map.tileheight

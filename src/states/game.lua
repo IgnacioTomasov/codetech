@@ -20,7 +20,7 @@ local game = {}
 
 function game:load()
 
-    self.map = sti('maps/testMap.lua')
+    self.map = sti('maps/office_floor_14/floor_14.lua')
  
     self.world = bump.newWorld(64)
 
@@ -32,7 +32,7 @@ function game:load()
     npc.worldAdd(self.world, npcs)
 
     -- cargar colisiones desde Tiled
-    collisions.solve("Arboles", "solid", self.world, self.map)
+    collisions.solve("Ventanas-Paredes-Puertas", "solid", self.world, self.map)
 end
 
 function game:update(dt)
@@ -52,11 +52,11 @@ end
 function game:draw()
 
   self.cam:attach()
-    self.map:drawLayer(self.map.layers["Base"])
-    self.map:drawLayer(self.map.layers["Arboles"])
+    self.map:drawLayer(self.map.layers["Piso"])
+    self.map:drawLayer(self.map.layers["Ventanas-Paredes-Puertas"])
     npc.draw()
     self.player:draw(false)
-    collisions.draw(false, self.world, self.player)
+    -- collisions.draw(false, self.world, self.player)
   self.cam:detach()
 
   game:drawHud()
