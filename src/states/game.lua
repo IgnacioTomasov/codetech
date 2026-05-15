@@ -45,7 +45,7 @@ function game:load()
    
     self.cam = camera()
     -- zoom de cámara (1.0 = 100%)
-    self.cameraZoom = 1.5
+    self.cameraZoom = 1.75
     self.cam:zoom(self.cameraZoom)
 
     -- Registrar collider físico en bump
@@ -75,9 +75,10 @@ function game:draw()
   self.cam:attach()
     self.map:drawLayer(self.map.layers["Piso"])
     self.map:drawLayer(self.map.layers["Ventanas-Paredes-Puertas"])
+    self.map:drawLayer(self.map.layers["Adornos-no-solidos"])
     npc.draw()
-    self.player:draw(true)
-    collisions.draw(true, self.world, self.player)
+    self.player:draw(false)
+    -- collisions.draw(true, self.world, self.player)
   self.cam:detach()
 
   game:drawHud()
