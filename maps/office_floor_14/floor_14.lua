@@ -99,14 +99,14 @@ return {
         {
           id = 4,
           properties = {
-            ["l_wall_solid_px"] = 20,
+            ["l_wall_solid_px"] = 12,
             ["solid"] = true
           }
         },
         {
           id = 5,
           properties = {
-            ["l_wall_solid_px"] = 20,
+            ["l_wall_solid_px"] = 12,
             ["solid"] = true
           }
         },
@@ -187,14 +187,14 @@ return {
         {
           id = 20,
           properties = {
-            ["l_wall_solid_px"] = 20,
+            ["l_wall_solid_px"] = 12,
             ["solid"] = true
           }
         },
         {
           id = 21,
           properties = {
-            ["l_wall_solid_px"] = 20,
+            ["l_wall_solid_px"] = 12,
             ["solid"] = true
           }
         },
@@ -275,14 +275,14 @@ return {
         {
           id = 36,
           properties = {
-            ["l_wall_solid_px"] = 20,
+            ["l_wall_solid_px"] = 12,
             ["solid"] = true
           }
         },
         {
           id = 37,
           properties = {
-            ["l_wall_solid_px"] = 20,
+            ["l_wall_solid_px"] = 12,
             ["solid"] = true
           }
         },
@@ -363,14 +363,14 @@ return {
         {
           id = 52,
           properties = {
-            ["l_wall_solid_px"] = 20,
+            ["l_wall_solid_px"] = 12,
             ["solid"] = true
           }
         },
         {
           id = 53,
           properties = {
-            ["l_wall_solid_px"] = 20,
+            ["l_wall_solid_px"] = 12,
             ["solid"] = true
           }
         },
@@ -451,14 +451,14 @@ return {
         {
           id = 68,
           properties = {
-            ["l_wall_solid_px"] = 20,
+            ["l_wall_solid_px"] = 12,
             ["solid"] = true
           }
         },
         {
           id = 69,
           properties = {
-            ["l_wall_solid_px"] = 20,
+            ["l_wall_solid_px"] = 12,
             ["solid"] = true
           }
         },
@@ -539,14 +539,14 @@ return {
         {
           id = 84,
           properties = {
-            ["l_wall_solid_px"] = 20,
+            ["l_wall_solid_px"] = 12,
             ["solid"] = true
           }
         },
         {
           id = 85,
           properties = {
-            ["l_wall_solid_px"] = 20,
+            ["l_wall_solid_px"] = 12,
             ["solid"] = true
           }
         },
@@ -769,12 +769,14 @@ return {
         {
           id = 128,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
         {
           id = 129,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
@@ -853,12 +855,14 @@ return {
         {
           id = 144,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
         {
           id = 145,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
@@ -937,12 +941,14 @@ return {
         {
           id = 160,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
         {
           id = 161,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
@@ -1021,12 +1027,14 @@ return {
         {
           id = 176,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
         {
           id = 177,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
@@ -1105,12 +1113,14 @@ return {
         {
           id = 192,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
         {
           id = 193,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },

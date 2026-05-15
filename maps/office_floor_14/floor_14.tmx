@@ -32,13 +32,13 @@
   </tile>
   <tile id="4">
    <properties>
-    <property name="l_wall_solid_px" type="int" value="20"/>
+    <property name="l_wall_solid_px" type="int" value="12"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="5">
    <properties>
-    <property name="l_wall_solid_px" type="int" value="20"/>
+    <property name="l_wall_solid_px" type="int" value="12"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -106,13 +106,13 @@
   </tile>
   <tile id="20">
    <properties>
-    <property name="l_wall_solid_px" type="int" value="20"/>
+    <property name="l_wall_solid_px" type="int" value="12"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="21">
    <properties>
-    <property name="l_wall_solid_px" type="int" value="20"/>
+    <property name="l_wall_solid_px" type="int" value="12"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -180,13 +180,13 @@
   </tile>
   <tile id="36">
    <properties>
-    <property name="l_wall_solid_px" type="int" value="20"/>
+    <property name="l_wall_solid_px" type="int" value="12"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="37">
    <properties>
-    <property name="l_wall_solid_px" type="int" value="20"/>
+    <property name="l_wall_solid_px" type="int" value="12"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -254,13 +254,13 @@
   </tile>
   <tile id="52">
    <properties>
-    <property name="l_wall_solid_px" type="int" value="20"/>
+    <property name="l_wall_solid_px" type="int" value="12"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="53">
    <properties>
-    <property name="l_wall_solid_px" type="int" value="20"/>
+    <property name="l_wall_solid_px" type="int" value="12"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -328,13 +328,13 @@
   </tile>
   <tile id="68">
    <properties>
-    <property name="l_wall_solid_px" type="int" value="20"/>
+    <property name="l_wall_solid_px" type="int" value="12"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="69">
    <properties>
-    <property name="l_wall_solid_px" type="int" value="20"/>
+    <property name="l_wall_solid_px" type="int" value="12"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -402,13 +402,13 @@
   </tile>
   <tile id="84">
    <properties>
-    <property name="l_wall_solid_px" type="int" value="20"/>
+    <property name="l_wall_solid_px" type="int" value="12"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="85">
    <properties>
-    <property name="l_wall_solid_px" type="int" value="20"/>
+    <property name="l_wall_solid_px" type="int" value="12"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -594,11 +594,13 @@
   </tile>
   <tile id="128">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="129">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -664,11 +666,13 @@
   </tile>
   <tile id="144">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="145">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -734,11 +738,13 @@
   </tile>
   <tile id="160">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="161">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -804,11 +810,13 @@
   </tile>
   <tile id="176">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="177">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -874,11 +882,13 @@
   </tile>
   <tile id="192">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="193">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
