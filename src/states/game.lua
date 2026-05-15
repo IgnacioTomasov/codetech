@@ -64,7 +64,7 @@ function game:update(dt)
   
   npc.move(dt, self.world, self.player)
 
-  cameraControl.limitsCorrection(self.cam, self.map, self.player.x, self.player.y)
+  cameraControl.limitsCorrection(self.cam, self.map, self.player.x, self.player.y, self.cameraZoom)
   self.player:update(dt)
   npc.update(dt)
 

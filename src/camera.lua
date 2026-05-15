@@ -1,13 +1,13 @@
-
 local camaraControl = {}
 
-function camaraControl.limitsCorrection(cam,map,x,y)
+function camaraControl.limitsCorrection(cam,map,x,y,zoom)
 
      -- Actualizacion de la posición de la cámara:
     cam:lookAt(x, y)
 
-    local w = love.graphics.getWidth()
-    local h = love.graphics.getHeight()
+    -- tamaño visible del mundo considerando zoom
+    local w = love.graphics.getWidth() / zoom
+    local h = love.graphics.getHeight() / zoom
 
     if cam.x < w/2 then
         cam.x = w/2
