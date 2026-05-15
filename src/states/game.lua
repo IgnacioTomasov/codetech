@@ -24,10 +24,31 @@ function game:load()
  
     self.world = bump.newWorld(64)
 
-    self.player = character.new(350,300,60,30,200,'sprites/bingo_grid.png')
+    -- self.player = character.new(350,300,60,30,200,'sprites/bingo_grid.png')
+    -- x, y representan la posición física (pies)
+    -- w, h representan únicamente el collider
 
+    local w_sprit = 32 --Ancho original del png en un cuadro 
+    local h_sprit = 48 --Alto original del png en un cuadro 
+    local restar_pixeles_x = 6 --numero de pixeles a reducir en x (solo en un lado) 
+
+    self.player = character.new(
+        350,
+        300,
+        w_sprit-2*restar_pixeles_x, -- Ancho x del collider
+        h_sprit/2, -- Altura y del collider
+        -restar_pixeles_x, -- desplazamiento x respecto al collider
+        -h_sprit/2 +2, -- desplazamiento y respecto al collider
+        200, --Speed
+        'assets/Characters/char_test1.png'
+    )
+   
     self.cam = camera()
+    -- zoom de cámara (1.0 = 100%)
+    self.cameraZoom = 1.5
+    self.cam:zoom(self.cameraZoom)
 
+    -- Registrar collider físico en bump
     self.world:add(self.player, self.player.x, self.player.y, self.player.w, self.player.h)
     npc.worldAdd(self.world, npcs)
 
@@ -56,7 +77,7 @@ function game:draw()
     self.map:drawLayer(self.map.layers["Ventanas-Paredes-Puertas"])
     npc.draw()
     self.player:draw(false)
-    -- collisions.draw(false, self.world, self.player)
+    -- collisions.draw(true, self.world, self.player)
   self.cam:detach()
 
   game:drawHud()
@@ -89,7 +110,7 @@ function game:drawHud()
     love.graphics.rectangle("line", x, y, width, height)
 
     love.graphics.print(
-        "PRAGAS: " .. completed .. " de " .. total,
+        "CODETech",
         x + 20,
         y + 8
     )
