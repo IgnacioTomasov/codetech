@@ -13,7 +13,6 @@ function collisions.solve(layerName, solidName, world, map)
 
   local wallCount = 0
   local layer = getLayerByName(map, layerName)
-  local width = layer.width
   local tileW = map.tilewidth
   local tileH = map.tileheight
 
@@ -27,15 +26,34 @@ function collisions.solve(layerName, solidName, world, map)
       if tile and tile.properties and tile.properties[solidName] then
         local collider = { type = "wall" }
 
+        local x_coord_corr = 0
+        local x_with_corr = 0
+        local widthCollider = tileW -- Solo definimos ancho, ya que solo hay paredes con fragmentos de tiles solidos.
+
+        --considerar corrección para paredes que solo tienen un lado solido:
+        if tile.properties["r_wall_solid_px"] then
+          x_coord_corr = tile.properties["r_wall_solid_px"]
+          x_with_corr = tile.properties["r_wall_solid_px"]
+          widthCollider = tileW - x_with_corr
+
+        elseif tile.properties["l_wall_solid_px"] then
+          x_coord_corr = 0
+          widthCollider = tile.properties["l_wall_solid_px"]
+        end
+
+        local x_cood = (x - 1) * tileW + x_coord_corr
+        local y_cood = (y - 1) * tileH
+
+
         world:add(
           collider,
-          (x - 1) * tileW,
-          (y - 1) * tileH,
-          tileW,
-          tileH
+          x_cood,
+          y_cood,
+          widthCollider,
+          tileH 
         )
 
-        local wallCount = wallCount + 1
+        wallCount = wallCount + 1
       end
     end
   end

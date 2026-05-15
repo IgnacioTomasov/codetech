@@ -10,11 +10,13 @@
   <image source="../../assets/Office_tileset/Office VX Ace/A4 Office Walls.png" width="512" height="480"/>
   <tile id="0">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="1">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -30,11 +32,13 @@
   </tile>
   <tile id="4">
    <properties>
+    <property name="l_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="5">
    <properties>
+    <property name="l_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -80,11 +84,13 @@
   </tile>
   <tile id="16">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="17">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -100,11 +106,13 @@
   </tile>
   <tile id="20">
    <properties>
+    <property name="l_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="21">
    <properties>
+    <property name="l_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -150,11 +158,13 @@
   </tile>
   <tile id="32">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="33">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -170,11 +180,13 @@
   </tile>
   <tile id="36">
    <properties>
+    <property name="l_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="37">
    <properties>
+    <property name="l_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -220,11 +232,13 @@
   </tile>
   <tile id="48">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="49">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -240,11 +254,13 @@
   </tile>
   <tile id="52">
    <properties>
+    <property name="l_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="53">
    <properties>
+    <property name="l_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -290,11 +306,13 @@
   </tile>
   <tile id="64">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="65">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -310,11 +328,13 @@
   </tile>
   <tile id="68">
    <properties>
+    <property name="l_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="69">
    <properties>
+    <property name="l_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -360,11 +380,13 @@
   </tile>
   <tile id="80">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="81">
    <properties>
+    <property name="r_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -380,11 +402,13 @@
   </tile>
   <tile id="84">
    <properties>
+    <property name="l_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="85">
    <properties>
+    <property name="l_wall_solid_px" type="int" value="20"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
   </tile>
@@ -1102,7 +1126,7 @@
  <layer id="1" name="Ventanas-Paredes-Puertas" width="70" height="30">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,233,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,194,228,228,235,228,228,235,228,234,228,228,326,228,228,228,235,228,228,234,228,228,326,228,228,228,228,326,228,211,227,211,326,228,228,228,234,195,228,228,234,228,228,228,234,228,228,326,228,228,228,228,228,327,228,228,228,234,228,228,228,234,228,228,235,213,0,0,
 0,0,0,242,243,243,251,243,243,251,243,250,243,243,405,243,243,243,251,243,243,250,243,243,405,243,243,243,243,405,243,243,243,243,405,243,243,243,250,243,243,243,250,243,243,243,250,243,243,405,243,243,243,243,243,407,243,243,243,250,243,243,243,250,243,243,251,261,0,0,
 0,0,0,241,0,0,0,0,0,0,0,0,0,0,241,0,0,0,0,0,0,0,0,0,241,0,0,0,0,241,0,0,0,0,241,0,0,0,0,0,0,0,0,0,0,0,0,0,0,241,0,0,0,0,0,245,0,0,0,0,0,0,0,0,0,0,0,261,0,0,

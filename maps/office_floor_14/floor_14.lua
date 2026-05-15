@@ -73,12 +73,14 @@ return {
         {
           id = 0,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
         {
           id = 1,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
@@ -97,12 +99,14 @@ return {
         {
           id = 4,
           properties = {
+            ["l_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
         {
           id = 5,
           properties = {
+            ["l_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
@@ -157,12 +161,14 @@ return {
         {
           id = 16,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
         {
           id = 17,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
@@ -181,12 +187,14 @@ return {
         {
           id = 20,
           properties = {
+            ["l_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
         {
           id = 21,
           properties = {
+            ["l_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
@@ -241,12 +249,14 @@ return {
         {
           id = 32,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
         {
           id = 33,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
@@ -265,12 +275,14 @@ return {
         {
           id = 36,
           properties = {
+            ["l_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
         {
           id = 37,
           properties = {
+            ["l_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
@@ -325,12 +337,14 @@ return {
         {
           id = 48,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
         {
           id = 49,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
@@ -349,12 +363,14 @@ return {
         {
           id = 52,
           properties = {
+            ["l_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
         {
           id = 53,
           properties = {
+            ["l_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
@@ -409,12 +425,14 @@ return {
         {
           id = 64,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
         {
           id = 65,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
@@ -433,12 +451,14 @@ return {
         {
           id = 68,
           properties = {
+            ["l_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
         {
           id = 69,
           properties = {
+            ["l_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
@@ -493,12 +513,14 @@ return {
         {
           id = 80,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
         {
           id = 81,
           properties = {
+            ["r_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
@@ -517,12 +539,14 @@ return {
         {
           id = 84,
           properties = {
+            ["l_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
         {
           id = 85,
           properties = {
+            ["l_wall_solid_px"] = 20,
             ["solid"] = true
           }
         },
@@ -1461,7 +1485,7 @@ return {
       encoding = "lua",
       data = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 233, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 194, 228, 228, 235, 228, 228, 235, 228, 234, 228, 228, 326, 228, 228, 228, 235, 228, 228, 234, 228, 228, 326, 228, 228, 228, 228, 326, 228, 211, 227, 211, 326, 228, 228, 228, 234, 195, 228, 228, 234, 228, 228, 228, 234, 228, 228, 326, 228, 228, 228, 228, 228, 327, 228, 228, 228, 234, 228, 228, 228, 234, 228, 228, 235, 213, 0, 0,
         0, 0, 0, 242, 243, 243, 251, 243, 243, 251, 243, 250, 243, 243, 405, 243, 243, 243, 251, 243, 243, 250, 243, 243, 405, 243, 243, 243, 243, 405, 243, 243, 243, 243, 405, 243, 243, 243, 250, 243, 243, 243, 250, 243, 243, 243, 250, 243, 243, 405, 243, 243, 243, 243, 243, 407, 243, 243, 243, 250, 243, 243, 243, 250, 243, 243, 251, 261, 0, 0,
         0, 0, 0, 241, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 241, 0, 0, 0, 0, 0, 0, 0, 0, 0, 241, 0, 0, 0, 0, 241, 0, 0, 0, 0, 241, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 241, 0, 0, 0, 0, 0, 245, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 261, 0, 0,
