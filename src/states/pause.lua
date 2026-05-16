@@ -2,14 +2,24 @@ local StateManager = require("src.managers.state_manager")
 
 local pause = {}
 
-pause.options = {
-    "Volver a jugar",
-    "Salir al menú",
-}
-
 local FONT_SIZE = 32
 
-pause.selected = 1
+function pause:new(session)
+
+    local state = {
+        session = session,
+        options = {
+            "Volver a jugar",
+            "Salir al menú",
+        },
+        selected = 1,
+    }
+
+    setmetatable(state, self)
+    self.__index = self
+
+    return state
+end
 
 function pause:load()
     self.font = love.graphics.newFont(FONT_SIZE)
@@ -63,10 +73,9 @@ function pause:keypressed(key)
         end
 
         if self.selected == 2 then
-
             local MenuState = require("src.states.menu")
 
-            StateManager:switch(MenuState)
+            StateManager:switch(MenuState:new(self.session))
         end
     end
 end

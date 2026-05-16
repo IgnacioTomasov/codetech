@@ -4,16 +4,25 @@ local GameState = require("src.states.game")
 local menu = {}
 local version = require("src.version")
 
-menu.options = {
-    "Jugar",
-    "Salir",
-}
-
-menu.selected = 1
-
 local FONT_SIZE = 32
 local TITLE = "CODETech"
 
+function menu:new(session)
+
+    local state = {
+        session = session,
+        options = {
+            "Jugar",
+            "Salir",
+        },
+        selected = 1,
+    }
+
+    setmetatable(state, self)
+    self.__index = self
+
+    return state
+end
 
 function menu:load()
     self.font = love.graphics.newFont(FONT_SIZE)
@@ -84,8 +93,8 @@ function menu:keypressed(key)
         local option = self.options[self.selected]
 
         if option == "Jugar" then
-            
-            StateManager:switch(GameState)
+
+            StateManager:switch(GameState:new(self.session))
         end
 
         if option == "Salir" then

@@ -16,7 +16,20 @@ local cameraControl = require("src.camera")
 local collisions = require("src.collisions")
 
 
+
 local game = {}
+
+function game:new(session)
+
+    local state = {
+        session = session
+    }
+
+    setmetatable(state, self)
+    self.__index = self
+
+    return state
+end
 
 function game:load()
 
@@ -89,7 +102,7 @@ function game:keypressed(key)
 
     if key == "return" then
         local PauseState = require("src.states.pause")
-        StateManager:push(PauseState)
+        StateManager:push(PauseState:new(self.session))
     end
 end
 
