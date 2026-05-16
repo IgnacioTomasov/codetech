@@ -104,6 +104,15 @@ function game:keypressed(key)
         local PauseState = require("src.states.pause")
         StateManager:push(PauseState:new(self.session))
     end
+    if key == "e" then
+
+    local EmailState = require("src.states.email")
+
+    StateManager:push(
+        EmailState:new(self.session)
+    )
+    end
+    
 end
 
 
