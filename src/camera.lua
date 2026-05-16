@@ -1,6 +1,6 @@
 local camaraControl = {}
 
-function camaraControl.limitsCorrection(cam,map,x,y,zoom)
+function camaraControl.limitsCorrection(cam,map,x,y,zoom,rightPadding)
 
      -- Actualizacion de la posición de la cámara:
     cam:lookAt(x, y)
@@ -18,6 +18,10 @@ function camaraControl.limitsCorrection(cam,map,x,y,zoom)
 
     local mapWidth = map.tilewidth * map.width
     local mapHeight = map.tileheight * map.height   
+
+    rightPadding = rightPadding or 0
+
+    mapWidth = mapWidth + rightPadding
 
     -- print("tamaño del mapa:", mapWidth,mapHeight)
 

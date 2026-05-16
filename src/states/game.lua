@@ -14,6 +14,7 @@ local camera = require 'libraries/camera'
 local cameraControl = require("src.camera")
 
 local collisions = require("src.collisions")
+local StatusBar = require("src.ui.status_bar")
 
 
 
@@ -46,7 +47,7 @@ function game:load()
     local restar_pixeles_x = 6 --numero de pixeles a reducir en x (solo en un lado) 
 
     self.player = character.new(
-        350,
+        1350,
         300,
         w_sprit-2*restar_pixeles_x, -- Ancho x del collider
         h_sprit/2, -- Altura y del collider
@@ -60,6 +61,9 @@ function game:load()
     -- zoom de cámara (1.0 = 100%)
     self.cameraZoom = 1.75
     self.cam:zoom(self.cameraZoom)
+
+    self.statusBar = StatusBar:new(self.session)
+    self.statusBar:load()
 
     -- Registrar collider físico en bump
     self.world:add(self.player, self.player.x, self.player.y, self.player.w, self.player.h)
@@ -77,9 +81,11 @@ function game:update(dt)
   
   npc.move(dt, self.world, self.player)
 
-  cameraControl.limitsCorrection(self.cam, self.map, self.player.x, self.player.y, self.cameraZoom)
+  cameraControl.limitsCorrection(self.cam, self.map, self.player.x, self.player.y, self.cameraZoom,100)
   self.player:update(dt)
   npc.update(dt)
+  
+  self.statusBar:update(dt)
 
 end
 
@@ -93,9 +99,7 @@ function game:draw()
     self.player:draw(false)
     -- collisions.draw(true, self.world, self.player)
   self.cam:detach()
-
-  game:drawHud()
-  
+  self.statusBar:draw()
 end
 
 function game:keypressed(key)
@@ -113,33 +117,6 @@ function game:keypressed(key)
     )
     end
     
-end
-
-
-function game:drawHud()
-
-    local completed = npc.getCompletedCount()
-    local total = npc.getTotalCount()
-
-    local x = 20
-    local y = 20
-    local width = 310
-    local height = 50    
-
-    love.graphics.setColor(0, 0, 0, 0.7)
-    love.graphics.rectangle("fill", x, y, width, height)
-
-    love.graphics.setColor(1, 1, 1)
-    love.graphics.rectangle("line", x, y, width, height)
-
-    love.graphics.print(
-        "CODETech",
-        x + 20,
-        y + 8
-    )
-
-    love.graphics.setColor(1,1,1)
-
 end
 
 
