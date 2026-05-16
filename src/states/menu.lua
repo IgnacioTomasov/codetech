@@ -2,6 +2,7 @@ local StateManager = require("src.managers.state_manager")
 local GameState = require("src.states.game")
 
 local menu = {}
+local version = require("src.version")
 
 menu.options = {
     "Jugar",
@@ -50,6 +51,16 @@ function menu:draw()
             200 + (i * (FONT_SIZE + verticalMargin))
         )
     end
+
+    local screenWidth = love.graphics.getWidth()
+    local screenHeight = love.graphics.getHeight()
+
+    love.graphics.print(
+        version.number,
+        screenWidth - 120,
+        screenHeight - 60
+    )
+    
 end
 
 function menu:keypressed(key)
