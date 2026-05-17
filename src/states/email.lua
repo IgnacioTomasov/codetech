@@ -1,6 +1,7 @@
 local email = {}
 
 local EmailRepository = require("src.core.email.email_repository")
+local StatusBar = require("src.ui.status_bar")
 
 function email:new(session)
 
@@ -22,9 +23,12 @@ end
 function email:load()
 
     self.font = love.graphics.newFont(18)
+    self.statusBar = StatusBar:new(self.session)
+    self.statusBar:load()
 end
 
 function email:update(dt)
+    self.statusBar:update(dt)
 
 end
 
@@ -48,6 +52,8 @@ function email:draw()
             60 + (i * 25)
         )
     end
+
+    self.statusBar:draw()
 end
 
 function email:keypressed(key)

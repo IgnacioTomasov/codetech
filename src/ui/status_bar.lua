@@ -12,6 +12,7 @@ function StatusBar:new(session)
         width = BAR_WIDTH,
         padding = PADDING,
         box_padding = BOX_PADDING,
+        border_radius = 12
     }
 
     setmetatable(ui, self)
@@ -46,7 +47,9 @@ function StatusBar:draw()
         x,
         y,
         width,
-        height
+        height,
+        self.border_radius,
+        self.border_radius
     )
 
     love.graphics.setColor(1, 1, 1)
@@ -55,7 +58,9 @@ function StatusBar:draw()
         x,
         y,
         width,
-        height
+        height,
+        self.border_radius,
+        self.border_radius
     )
 
     love.graphics.setColor(1, 1, 1, 1)
