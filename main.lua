@@ -1,13 +1,15 @@
 local StateManager = require("src.managers.state_manager")
-local MenuState = require("src.states.menu")
 
 local GameSession = require("src.core.game_session")
 local session = GameSession:new()
+local START_STATE = "menu"
 
 function love.load()
-    -- usar state manager para instanciar primero el menú. El cual
-    -- debe recibi la session para inicializarse.
-    StateManager:switch(MenuState:new(session))
+    local statePath = "src.states." .. START_STATE
+
+    local StateClass = require(statePath)
+
+    StateManager:switch(StateClass:new(session))
 end
 
 function love.update(dt)
