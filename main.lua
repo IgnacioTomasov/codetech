@@ -2,7 +2,7 @@ local StateManager = require("src.managers.state_manager")
 
 local GameSession = require("src.core.game_session")
 local session = GameSession:new()
-local START_STATE = "menu"
+local START_STATE = "intro"
 
 function love.load()
     local statePath = "src.states." .. START_STATE
