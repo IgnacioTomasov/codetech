@@ -13,6 +13,7 @@ function VerticalLayer:new(imagePath, offsetY, speed, scale, limit)
         speed = speed or 0,
         scale = scale or 1,
         limit = limit or 0
+        ,finished = false
     }
 
     setmetatable(layer, self)
@@ -23,6 +24,10 @@ end
 
 function VerticalLayer:update(dt)
 
+    if self.finished then
+        return
+    end
+
     if self.offsetY < self.limit then
 
         self.offsetY =
@@ -30,6 +35,7 @@ function VerticalLayer:update(dt)
 
     else
         self.offsetY = self.limit
+        self.finished = true
     end
 end
 
@@ -70,7 +76,7 @@ end
 
 function intro:load()
 
-    local speedBase = -10
+    local speedBase = -20
     self.layers = {
 
         VerticalLayer:new( --imagePath, offsetY, speed, scale, limit
@@ -98,13 +104,25 @@ function intro:load()
         ),
     }
 
+
+    --Letras Sobre la intro:
+    self.titleFont = love.graphics.newFont(72)
 end
 
 function intro:update(dt)
 
+    local allFinished = true
+
     for _, layer in ipairs(self.layers) do
+
         layer:update(dt)
+
+        if not layer.finished then
+            allFinished = false
+        end
     end
+
+    self.showText = allFinished
 
 end
 
@@ -112,6 +130,18 @@ function intro:draw()
 
     for _, layer in ipairs(self.layers) do
         layer:draw()
+    end
+
+    if self.showText then
+        love.graphics.setFont(self.titleFont)
+
+        love.graphics.printf(
+                "CodeTech",
+                0,
+                100,
+                love.graphics.getWidth(),
+                "center"
+            )
     end
 
 end
