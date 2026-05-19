@@ -1,4 +1,5 @@
 local StateManager = require("src.managers.state_manager")
+local anim8 = require("libraries.anim8")
 
 local intro = {}
 
@@ -11,6 +12,7 @@ function VerticalLayer:new(imagePath, offsetY, speed, scale, limit)
         image = love.graphics.newImage(imagePath),
         offsetY = offsetY or 0,
         speed = speed or 0,
+        baseSpeed = speed or 0,
         scale = scale or 1,
         limit = limit or 0
         ,finished = false
@@ -30,8 +32,8 @@ function VerticalLayer:update(dt)
 
     if self.offsetY < self.limit then
 
-        self.offsetY =
-            self.offsetY - self.speed * dt
+        self.offsetY = self.offsetY - self.speed * dt
+        self.speed = self.speed + math.abs(self.baseSpeed) * 0.001
 
     else
         self.offsetY = self.limit
@@ -76,14 +78,15 @@ end
 
 function intro:load()
 
-    local speedBase = -20
+    local speedBase = -10
+    local scale = 1.2
     self.layers = {
 
         VerticalLayer:new( --imagePath, offsetY, speed, scale, limit
             'assets/intro/layer_fondo.png',
             -100,
             speedBase,
-            1.2,
+            scale,
             0
         ),
 
@@ -91,7 +94,7 @@ function intro:load()
             'assets/intro/layer_edificio_chico.png',
             -100,
             speedBase*2,
-            1.2,
+            scale,
             100
         ),
 
@@ -99,19 +102,35 @@ function intro:load()
             'assets/intro/layer_edificio_grande.png',
             -100,
             speedBase*1.25,
-            1.2,
+            scale,
             25
         ),
     }
 
-
     --Letras Sobre la intro:
     self.titleFont = love.graphics.newFont(72)
+
+    --
+    self.LogoSpriteSheet = love.graphics.newImage('assets/intro/layer_logo.png')
+    self.grid = anim8.newGrid(math.floor(self.LogoSpriteSheet:getWidth()/2),
+                              math.floor(self.LogoSpriteSheet:getHeight()/1), 
+                                self.LogoSpriteSheet:getWidth(),
+                                self.LogoSpriteSheet:getHeight())
+
+    self.frames = self.grid('1-2', 1) 
+    self.animation = anim8.newAnimation(self.frames, 1) 
+
+    self.logoTimer = 0
+
+    self.logoAlpha = 0
+    self.fadeSpeed = 0.5
 end
 
 function intro:update(dt)
 
     local allFinished = true
+    local LogoIntroDelay = 2 --segundos
+    
 
     for _, layer in ipairs(self.layers) do
 
@@ -122,7 +141,18 @@ function intro:update(dt)
         end
     end
 
-    self.showText = allFinished
+    self.logoTimer = self.logoTimer + dt
+
+    if self.logoTimer > LogoIntroDelay then
+        self.showText = true
+    else
+        self.showText = false
+    end
+
+    if self.showText then
+        self.animation:update(dt)
+        self.logoAlpha = math.min(self.logoAlpha + self.fadeSpeed * dt,1) --min es para evitar pasarse de 1
+    end
 
 end
 
@@ -133,15 +163,17 @@ function intro:draw()
     end
 
     if self.showText then
-        love.graphics.setFont(self.titleFont)
 
-        love.graphics.printf(
-                "CodeTech",
-                0,
-                100,
-                love.graphics.getWidth(),
-                "center"
-            )
+        love.graphics.setColor(1,1,1,self.logoAlpha) -- transparecia
+        self.animation:draw(
+            self.LogoSpriteSheet,
+            0,
+            0,
+            0,
+            2, -- escala del logo x
+            2 -- escala del logo y
+        )
+        love.graphics.setColor(1,1,1,1) -- sin transparecia
     end
 
 end
