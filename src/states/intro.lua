@@ -1,4 +1,5 @@
 local StateManager = require("src.managers.state_manager")
+local AudioManager = require("src.managers.audio_manager")
 local anim8 = require("libraries.anim8")
 
 local intro = {}
@@ -77,6 +78,7 @@ function intro:new(session)
 end
 
 function intro:load()
+    AudioManager:playMusic("intro")
 
     local speedBase = -10
     local scale = 1.2
