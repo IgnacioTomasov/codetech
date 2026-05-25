@@ -1,70 +1,10 @@
 local StateManager = require("src.managers.state_manager")
 local AudioManager = require("src.managers.audio_manager")
 local anim8 = require("libraries.anim8")
+local FadeElement = require("src.ui.fade_element")
+local VerticalLayer = require("src.ui.vertical_animation")
 
 local intro = {}
-
-local VerticalLayer = {}
-
--- Objeto que administra los movimientos verticales
-function VerticalLayer:new(imagePath, offsetY, speed, scale, limit)
-
-    local layer = {
-        image = love.graphics.newImage(imagePath),
-        offsetY = offsetY or 0,
-        speed = speed or 0,
-        baseSpeed = speed or 0,
-        scale = scale or 1,
-        limit = limit or 0
-        ,finished = false
-    }
-
-    setmetatable(layer, self)
-    self.__index = self
-
-    return layer
-end
-
-function VerticalLayer:update(dt)
-
-    if self.finished then
-        return
-    end
-
-    if self.offsetY < self.limit then
-
-        self.offsetY = self.offsetY - self.speed * dt
-        self.speed = self.speed + math.abs(self.baseSpeed) * 0.001
-
-    else
-        self.offsetY = self.limit
-        self.finished = true
-    end
-end
-
-function VerticalLayer:draw()
-
-    local scaleX =
-        self.scale *
-        love.graphics.getWidth() /
-        self.image:getWidth()
-
-    local scaleY =
-        self.scale *
-        love.graphics.getHeight() /
-        self.image:getHeight()
-
-    love.graphics.draw(
-        self.image,
-        0,
-        self.offsetY,
-        0,
-        scaleX,
-        scaleY
-    )
-end
-
-
 function intro:new(session)
     -- Es estantard recibir session desde instancias superiores (main)
     local state = {
@@ -122,16 +62,30 @@ function intro:load()
     self.frames = self.grid('1-2', 1) 
     self.animation = anim8.newAnimation(self.frames, 1) 
 
-    self.logoTimer = 0
+    self.logo = FadeElement:new({
+        image = self.LogoSpriteSheet,
+        animation = self.animation,
+        x = 0,
+        y = 0,
+        scaleX = 2,
+        scaleY = 2,
+        delay = 2,
+        fadeSpeed = 0.5
+    })
 
-    self.logoAlpha = 0
-    self.fadeSpeed = 0.5
+    self.pressEnter = FadeElement:new({
+        text = "< PRESIONA ENTER >",
+        font = love.graphics.newFont(20),
+        centered = true,
+        y = 250,
+        delay = 4,
+        fadeSpeed = 0.5
+    })
 end
 
 function intro:update(dt)
 
     local allFinished = true
-    local LogoIntroDelay = 2 --segundos
     
 
     for _, layer in ipairs(self.layers) do
@@ -143,18 +97,8 @@ function intro:update(dt)
         end
     end
 
-    self.logoTimer = self.logoTimer + dt
-
-    if self.logoTimer > LogoIntroDelay then
-        self.showText = true
-    else
-        self.showText = false
-    end
-
-    if self.showText then
-        self.animation:update(dt)
-        self.logoAlpha = math.min(self.logoAlpha + self.fadeSpeed * dt,1) --min es para evitar pasarse de 1
-    end
+    self.logo:update(dt)
+    self.pressEnter:update(dt)
 
 end
 
@@ -164,19 +108,8 @@ function intro:draw()
         layer:draw()
     end
 
-    if self.showText then
-
-        love.graphics.setColor(1,1,1,self.logoAlpha) -- transparecia
-        self.animation:draw(
-            self.LogoSpriteSheet,
-            0,
-            0,
-            0,
-            2, -- escala del logo x
-            2 -- escala del logo y
-        )
-        love.graphics.setColor(1,1,1,1) -- sin transparecia
-    end
+    self.logo:draw()
+    self.pressEnter:draw()
 
 end
 

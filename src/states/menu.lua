@@ -5,7 +5,7 @@ local menu = {}
 local version = require("src.version")
 
 local FONT_SIZE = 32
-local TITLE = "CODETech"
+local TITLE = "CodeTech"
 
 function menu:new(session)
 
