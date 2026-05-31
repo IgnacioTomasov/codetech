@@ -77,7 +77,7 @@ function StatusBar:draw()
     )
 
     love.graphics.print(
-        "Ansiedad: " .. tostring(stats.anciedad),
+        "Ansiedad: " .. tostring(stats.ansiedad),
         x + self.padding,
         startY + LINE_HEIGHT * 2
     )

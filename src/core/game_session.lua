@@ -20,6 +20,18 @@ end
 
 function GameSession:initialize()
 
+    self.stats = {
+        ansiedad = 0,
+        prestigio = 0,
+        energia = 100,
+    }
+
+    self.clock = {
+        day = 1,
+        hour = 9,
+        minute = 0,
+    }
+    
     self.flags:set("office_access", false)
 
 end

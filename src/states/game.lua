@@ -6,6 +6,7 @@ local bump = require("libraries/bump")
 
 local character = require("src.entities.character")
 local npc = require("src.entities.npc")
+local Door = require("src.entities.doors") 
 
 local inputControl = require("src.input")
 
@@ -15,8 +16,6 @@ local cameraControl = require("src.camera")
 
 local collisions = require("src.collisions")
 local StatusBar = require("src.ui.status_bar")
-
-
 
 local game = {}
 
@@ -56,6 +55,13 @@ function game:load()
         200, --Speed
         'assets/Characters/char_test1.png'
     )
+
+    self.doors = {}
+
+    table.insert(
+        self.doors,
+        Door:new(self.world, 1370, 370, 20, 20, "office_access")
+    )
    
     self.cam = camera()
     -- zoom de cámara (1.0 = 100%)
@@ -67,7 +73,7 @@ function game:load()
 
     -- Registrar collider físico en bump
     self.world:add(self.player, self.player.x, self.player.y, self.player.w, self.player.h)
-    npc.worldAdd(self.world, npcs)
+    -- npc.worldAdd(self.world, npcs)
 
     -- cargar colisiones desde Tiled
     collisions.solve("Ventanas-Paredes-Puertas", "solid", self.world, self.map)
@@ -84,8 +90,12 @@ function game:update(dt)
   cameraControl.limitsCorrection(self.cam, self.map, self.player.x, self.player.y, self.cameraZoom,100)
   self.player:update(dt)
   npc.update(dt)
+
+  for _, door in ipairs(self.doors) do
+      door:update(dt)
+  end
   
-  self.statusBar:update(dt)
+  self.statusBar:update(self.session)
 
 end
 
@@ -96,6 +106,11 @@ function game:draw()
     self.map:drawLayer(self.map.layers["Ventanas-Paredes-Puertas"])
     self.map:drawLayer(self.map.layers["Adornos-no-solidos"])
     npc.draw()
+
+    for _, door in ipairs(self.doors) do
+        door:draw()
+    end
+
     self.player:draw(false)
     -- collisions.draw(true, self.world, self.player)
   self.cam:detach()
