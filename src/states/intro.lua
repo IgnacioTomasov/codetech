@@ -49,6 +49,10 @@ function intro:load()
         ),
     }
 
+    -- para test, mecanismo parar verificar un flag:
+    -- print("office_access:",self.session:isFlagEnabled("office_access"))
+    -- self.session:setFlag("office_access",true)
+
     --Letras Sobre la intro:
     self.titleFont = love.graphics.newFont(72)
 

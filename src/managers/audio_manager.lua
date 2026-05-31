@@ -33,7 +33,7 @@ function AudioManager:load()
 
     self.sfx.accept = 
         love.audio.newSource(
-            "assets/audio/sfx/menu_accept_trill.wav",
+            "assets/audio/sfx/menu_accept_ascending.wav",
             "static")
     self.sfx.accept:setVolume(0.3)
 end
