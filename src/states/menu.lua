@@ -1,4 +1,5 @@
 local StateManager = require("src.managers.state_manager")
+local AudioManager = require("src.managers.audio_manager")
 local GameState = require("src.states.game")
 
 local menu = {}
@@ -25,6 +26,7 @@ function menu:new(session)
 end
 
 function menu:load()
+    AudioManager.currentMusic:stop()
     self.font = love.graphics.newFont(FONT_SIZE)
     self.fontTitle = love.graphics.newFont(FONT_SIZE*1.5)
 end
@@ -79,6 +81,8 @@ function menu:keypressed(key)
             self.selected + 1,
             #self.options
         )
+
+        AudioManager:playSfx("move_low")
     end
 
     if key == "up" then
@@ -86,6 +90,7 @@ function menu:keypressed(key)
             self.selected - 1,
             1
         )
+        AudioManager:playSfx("move_low")
     end
 
     if key == "return" then
@@ -93,7 +98,7 @@ function menu:keypressed(key)
         local option = self.options[self.selected]
 
         if option == "Jugar" then
-
+            AudioManager:playSfx("accept")
             StateManager:switch(GameState:new(self.session))
         end
 

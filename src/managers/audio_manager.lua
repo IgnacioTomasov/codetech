@@ -24,11 +24,18 @@ function AudioManager:load()
 
     -- self.music.email:setLooping(true)
 
-    -- self.sfx.mail_open =
-    --     love.audio.newSource(
-    --         "assets/audio/sfx/mail_open.ogg",
-    --         "static"
-    --     )
+    self.sfx.move_low =
+        love.audio.newSource(
+            "assets/audio/sfx/menu_move_low.wav",
+            "static"
+        )
+    self.sfx.move_low:setVolume(0.3)
+
+    self.sfx.accept = 
+        love.audio.newSource(
+            "assets/audio/sfx/menu_accept_trill.wav",
+            "static")
+    self.sfx.accept:setVolume(0.3)
 end
 
 function AudioManager:playMusic(name)
