@@ -27,6 +27,7 @@ end
 
 function menu:load()
     AudioManager.currentMusic:stop()
+    AudioManager:playMusic("game_menu")
     self.font = love.graphics.newFont(FONT_SIZE)
     self.fontTitle = love.graphics.newFont(FONT_SIZE*1.5)
 end

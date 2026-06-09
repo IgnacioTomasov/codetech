@@ -16,6 +16,13 @@ function AudioManager:load()
     self.music.intro:setLooping(true)
     self.music.intro:setVolume(0.3)
 
+    self.music.game_menu = 
+        love.audio.newSource(
+            "assets/audio/music/game_menu.wav",
+            "stream")
+    self.music.game_menu:setLooping(true)
+    self.music.game_menu:setVolume(0.3)
+
     -- self.music.email =
     --     love.audio.newSource(
     --         "assets/audio/music/email.ogg",
@@ -42,6 +49,7 @@ function AudioManager:load()
             "assets/audio/sfx/door_shhh_open.wav",
             "static")
     self.sfx.door_shhh_open:setVolume(0.3)
+    
 end
 
 function AudioManager:playMusic(name)
