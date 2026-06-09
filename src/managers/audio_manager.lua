@@ -36,6 +36,12 @@ function AudioManager:load()
             "assets/audio/sfx/menu_accept_ascending.wav",
             "static")
     self.sfx.accept:setVolume(0.3)
+
+    self.sfx.door_shhh_open = 
+        love.audio.newSource(
+            "assets/audio/sfx/door_shhh_open.wav",
+            "static")
+    self.sfx.door_shhh_open:setVolume(0.3)
 end
 
 function AudioManager:playMusic(name)

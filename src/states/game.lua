@@ -85,7 +85,7 @@ function game:load()
 
     table.insert(
         self.triggers,
-        TriggerArea:new(1376 , 544, 160, 128,
+        TriggerArea:new(1376 , 844, 160, 128,
             OfficeAccessEvent:create(self.session)
             )
     )
@@ -105,7 +105,7 @@ function game:update(dt)
   npc.update(dt)
 
   for _, door in ipairs(self.doors) do
-      door:update(dt,self.session)
+      door:update(dt,self.session, self.player)
   end
   
   self.statusBar:update(self.session)

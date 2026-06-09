@@ -107,7 +107,7 @@ function character:draw(showCharRectangle)
     local drawX = self.x + self.spriteOffsetX
     local drawY = self.y + self.spriteOffsetY
 
-    print(drawX, drawY)
+    -- print(drawX, drawY)
     local function walk()
             self.animations.walk:draw(
             self.spriteSheet,
