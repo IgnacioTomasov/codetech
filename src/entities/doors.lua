@@ -1,39 +1,104 @@
 local Door = {}
 Door.__index = Door
 
-function Door:new(world, x, y, w, h, requiredFlag)
+function Door:new(world, x, y, requiredFlag, side)
 
     local door = setmetatable({
         x = x,
+        world = world,
         y = y,
-        w = w,
-        h = h,
+        w = 32,
+        h = 64,
         requiredFlag = requiredFlag,
-        isOpen = false
+        side = side or "left",
+        isOpen = false,
+        openProgress = 0
     }, self)
 
-    world:add(door, x, y, w, h)
+    world:add(door, x, y, door.w, door.h)
 
     return door
 end
 
-function Door:update(dt,session)
+function Door:getOffsetX()
+
+    if self.side == "left" then
+        return -self.w * self.openProgress
+    end
+
+    return self.w * self.openProgress
+
+end
+
+function Door:update(dt, session)
 
     self.isOpen = session:isFlagEnabled(self.requiredFlag)
-    print(self.isOpen)
+
+    local speed = 2
+
+    if self.isOpen then
+        self.openProgress = math.min(
+            1,
+            self.openProgress + dt * speed
+        )
+    else
+        self.openProgress = math.max(
+            0,
+            self.openProgress - dt * speed
+        )
+    end
+
+    local offsetX = self:getOffsetX()
+
+    self.world:update(
+        self,
+        self.x + offsetX,
+        self.y
+    )
 
 end
 
 function Door:draw()
+    local offsetX = self:getOffsetX()
 
-    -- if self.isOpen then
-    --     love.graphics.setColor(0, 1, 0, 0.4)
-    -- else
-    --     love.graphics.setColor(1, 0, 0, 0.4)
-    -- end
-    love.graphics.setColor(0.7,1,1)
+    local frameColor = {1, 1, 1, 1}
+    local glassColor = {0.6, 0.9, 1.0, 0.55}
 
-    love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
+    love.graphics.setColor(frameColor)
+    love.graphics.rectangle(
+        "fill",
+        self.x + offsetX,
+        self.y,
+        self.w,
+        self.h
+    )
+
+    love.graphics.setColor(glassColor)
+    love.graphics.rectangle(
+        "fill",
+        self.x + offsetX + 2,
+        self.y + 2,
+        self.w - 4,
+        self.h - 4
+    )
+
+    love.graphics.setColor(frameColor)
+
+    if self.side == "left" then
+        love.graphics.line(
+            self.x + offsetX + self.w - 4,
+            self.y + self.h / 2,
+            self.x + offsetX + self.w - 10,
+            self.y + self.h / 2
+        )
+    else
+        love.graphics.line(
+            self.x + offsetX + 4,
+            self.y + self.h / 2,
+            self.x + offsetX + 10,
+            self.y + self.h / 2
+        )
+    end
 
 end
 
