@@ -47,7 +47,7 @@ function game:load()
 
     self.player = character.new(
         1350,
-        300,
+        700,
         w_sprit-2*restar_pixeles_x, -- Ancho x del collider
         h_sprit/2, -- Altura y del collider
         -restar_pixeles_x, -- desplazamiento x respecto al collider
@@ -58,10 +58,8 @@ function game:load()
 
     self.doors = {}
 
-    table.insert(
-        self.doors,
-        Door:new(self.world, 1370, 370, 20, 20, "office_access")
-    )
+    table.insert(self.doors, Door:new(self.world, 1376, 576, 64, 64, "office_access"))
+    table.insert(self.doors, Door:new(self.world, 1472, 576, 64, 64, "office_access"))
    
     self.cam = camera()
     -- zoom de cámara (1.0 = 100%)
@@ -77,6 +75,25 @@ function game:load()
 
     -- cargar colisiones desde Tiled
     collisions.solve("Ventanas-Paredes-Puertas", "solid", self.world, self.map)
+
+    -- Eventos y gatillos:
+    local TriggerArea = require('src.events.trigger_area')
+    local OfficeAccessEvent = require('src.events.office_access_event')
+
+    self.triggers = {}
+
+    self.dev_area_x = 1722    
+    self.dev_area_y = 618
+    self.dev_area_h = 64
+    self.dev_area_w = 64
+
+    table.insert(
+        self.triggers,
+        TriggerArea:new(self.dev_area_x, self.dev_area_y, self.dev_area_h, self.dev_area_w,
+            OfficeAccessEvent:create(self.session)
+            )
+    )
+
 end
 
 function game:update(dt)
@@ -92,10 +109,15 @@ function game:update(dt)
   npc.update(dt)
 
   for _, door in ipairs(self.doors) do
-      door:update(dt)
+      door:update(dt,self.session)
   end
   
   self.statusBar:update(self.session)
+
+  -- Verificar triggers
+  for _, trigger in ipairs(self.triggers) do
+    trigger:update(self.player)
+  end
 
 end
 
@@ -112,9 +134,15 @@ function game:draw()
     end
 
     self.player:draw(false)
+
+    for _, trigger in ipairs(self.triggers) do
+        trigger:draw()
+    end
     -- collisions.draw(true, self.world, self.player)
   self.cam:detach()
   self.statusBar:draw()
+
+
 end
 
 function game:keypressed(key)

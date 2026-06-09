@@ -17,9 +17,10 @@ function Door:new(world, x, y, w, h, requiredFlag)
     return door
 end
 
-function Door:update(session)
+function Door:update(dt,session)
 
-    -- self.isOpen = session:isFlagEnabled(self.requiredFlag)
+    self.isOpen = session:isFlagEnabled(self.requiredFlag)
+    print(self.isOpen)
 
 end
 
@@ -30,7 +31,7 @@ function Door:draw()
     -- else
     --     love.graphics.setColor(1, 0, 0, 0.4)
     -- end
-    love.graphics.setColor(1,0,0)
+    love.graphics.setColor(0.7,1,1)
 
     love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
 
