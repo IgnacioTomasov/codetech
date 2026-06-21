@@ -6,7 +6,7 @@ function OfficeAccessEvent:create(session)
 
     return function()
 
-        session:setFlag("office_access", true)
+        session:setFlag("contract_signed", true)
 
         print("Acceso habilitado")
 

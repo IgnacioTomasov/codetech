@@ -1,18 +1,18 @@
+local UI = require("src.ui.ui_constants")
+
 local StatusBar = {}
 
-local BAR_WIDTH = 200
-local PADDING = 20
 local LINE_HEIGHT = 30
-local BOX_PADDING = 30
+
 
 function StatusBar:new(session)
 
     local ui = {
         session = session,
-        width = BAR_WIDTH,
-        padding = PADDING,
-        box_padding = BOX_PADDING,
-        border_radius = 12
+        width = UI.STATUS_BAR.WIDTH,
+        padding = UI.STATUS_BAR.PADDING,
+        box_padding =  UI.STATUS_BAR.BOX_PADDING,
+        border_radius = UI.BORDER_RADIUS
     }
 
     setmetatable(ui, self)
@@ -39,9 +39,15 @@ function StatusBar:draw()
 
     local y = self.box_padding
     local width = self.width
-    local height = screenHeight - 2 * self.box_padding
 
-    love.graphics.setColor(0, 0, 0, 0.7)
+    local reservedBottomSpace = UI.RESERVED_BOTTOM_SPACE
+
+    local height =
+        screenHeight
+        - (2 * self.box_padding)
+        - reservedBottomSpace
+
+    love.graphics.setColor(UI.COLORS.PANEL_BACKGROUND)
     love.graphics.rectangle(
         "fill",
         x,

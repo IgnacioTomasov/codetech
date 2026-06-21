@@ -48,10 +48,37 @@ end
 
 function StateManager:draw()
 
-    local current = self:current()
+    local stackSize = #self.stack
 
-    if current and current.draw then
-        current:draw()
+    if stackSize == 0 then
+        return
+    end
+
+    -- Buscar el primer estado que debe dibujarse.
+    -- Si hay overlays encima, se dibujará también el estado base.
+    local startIndex = stackSize
+
+    while startIndex > 1 do
+
+        local state = self.stack[startIndex]
+
+        if not state.isOverlay then
+            break
+        end
+
+        startIndex = startIndex - 1
+
+    end
+
+    -- Dibujar desde el estado base hasta el top
+    for i = startIndex, stackSize do
+
+        local state = self.stack[i]
+
+        if state and state.draw then
+            state:draw()
+        end
+
     end
 
 end

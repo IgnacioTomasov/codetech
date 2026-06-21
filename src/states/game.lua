@@ -58,10 +58,10 @@ function game:load()
 
     self.doors = {}
 
-    table.insert(self.doors, Door:new(self.world, 1376, 576, "office_access", "left"))
-    table.insert(self.doors, Door:new(self.world, 1408, 576, "office_access", "right"))
-    table.insert(self.doors, Door:new(self.world, 1472, 576, "office_access", "left"))
-    table.insert(self.doors, Door:new(self.world, 1504, 576, "office_access", "right"))
+    table.insert(self.doors, Door:new(self.world, 1376, 576, "contract_signed", "left"))
+    table.insert(self.doors, Door:new(self.world, 1408, 576, "contract_signed", "right"))
+    table.insert(self.doors, Door:new(self.world, 1472, 576, "contract_signed", "left"))
+    table.insert(self.doors, Door:new(self.world, 1504, 576, "contract_signed", "right"))
     self.cam = camera()
     -- zoom de cámara (1.0 = 100%)
     self.cameraZoom = 1.75
@@ -80,6 +80,7 @@ function game:load()
     -- Eventos y gatillos:
     local TriggerArea = require('src.events.trigger_area')
     local OfficeAccessEvent = require('src.events.office_access_event')
+    local BoxTextEvent = require('src.events.box_text_event')
 
     self.triggers = {}
 
@@ -87,6 +88,14 @@ function game:load()
         self.triggers,
         TriggerArea:new(1376 , 844, 160, 128,
             OfficeAccessEvent:create(self.session)
+            )
+    )
+
+    -- Evento de acceso tras firmar contrato confidencialidad
+    table.insert(
+        self.triggers,
+        TriggerArea:new(1314 , 638, 32, 32,
+            BoxTextEvent:create(self.session)
             )
     )
 
