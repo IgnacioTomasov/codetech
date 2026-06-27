@@ -78,9 +78,9 @@ function game:load()
     collisions.solve("Ventanas-Paredes-Puertas", "solid", self.world, self.map)
 
     -- Eventos y gatillos:
-    local TriggerArea = require('src.events.trigger_area')
-    local OfficeAccessEvent = require('src.events.office_access_event')
-    local BoxTextEvent = require('src.events.box_text_event')
+    local TriggerArea = require('src.triggers.trigger_area')
+    local SetFlagAction = require('src.actions.set_flag_action')
+    local ShowDialogAction = require('src.actions.show_dialog_action')
 
     self.triggers = {}
 
@@ -88,7 +88,12 @@ function game:load()
         self.triggers,
         TriggerArea:new(
             1376 , 844, 160, 128,
-            OfficeAccessEvent:create(self.session),
+            SetFlagAction:create(
+                self.session,
+                {
+                    contract_signed = true
+                }
+            ),
             self.session,
             "contract_signed"
             )
@@ -99,7 +104,10 @@ function game:load()
         self.triggers,
         TriggerArea:new(
             1314 , 638, 32, 32,
-            BoxTextEvent:create(self.session),
+            ShowDialogAction:create(
+                self.session,
+                "la_llegada/control_acceso:contract_intro"
+            ),
             self.session,
             "contract_signed"
             )

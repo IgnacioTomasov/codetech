@@ -1,10 +1,21 @@
 local StateManager = require("src.managers.state_manager")
 local AudioManager = require("src.managers.audio_manager")
 local UI = require("src.ui.ui_constants")
+local DialogRepository = require("src.content.dialogs")
 
 local TextBoxState = {}
 
-function TextBoxState:new(session, config)
+function TextBoxState:new(session, dialog)
+
+    local config = {}
+
+    if type(dialog) == "string" then
+        config = DialogRepository:get(dialog)
+    else
+        config = dialog
+    end
+
+    assert(config, "Dialog not found")
 
     local state = {
         session = session,
@@ -26,6 +37,16 @@ end
 
 function TextBoxState:load()
     self.font = love.graphics.newFont(UI.TEXTBOX.FONT_SIZE)
+end
+
+function TextBoxState:loadDialog(dialogId)
+
+    local config = DialogRepository:get(dialogId)
+
+    self.pages = config.pages or {}
+    self.currentPage = 1
+    self.selectedOption = 1
+
 end
 
 function TextBoxState:update(dt)
@@ -66,10 +87,27 @@ function TextBoxState:keypressed(key)
 
             local option = page.options[self.selectedOption or 1]
 
-            if option and option.flag then
-                self.session:setFlag(option.flag, true)
+            if option then
+
+                -- Nuevo formato: múltiples flags.
+                if option.flags then
+                    for flagName, value in pairs(option.flags) do
+                        self.session:setFlag(flagName, value)
+                    end
+                end
+
+                -- Compatibilidad temporal con el formato antiguo.
+                if option.flag then
+                    self.session:setFlag(option.flag, true)
+                end
+
+                if option.gotoDialog then
+                    AudioManager:playSfx("page_turn_01")
+                    self:loadDialog(option.gotoDialog)
+                    return
+                end
+
             end
-            AudioManager:playSfx("page_turn_01")
         end
 
         if self.currentPage < #self.pages then
