@@ -69,11 +69,11 @@ function TextBoxState:keypressed(key)
             if option and option.flag then
                 self.session:setFlag(option.flag, true)
             end
-            AudioManager:playSfx("accept")
+            AudioManager:playSfx("page_turn_01")
         end
 
         if self.currentPage < #self.pages then
-            AudioManager:playSfx("accept")
+            AudioManager:playSfx("page_turn_01")
             self.currentPage = self.currentPage + 1
             self.selectedOption = 1
         else

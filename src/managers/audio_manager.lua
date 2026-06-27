@@ -38,6 +38,14 @@ function AudioManager:load()
         )
     self.sfx.move_low:setVolume(0.3)
 
+    
+    self.sfx.page_turn_01 =
+    love.audio.newSource(
+            "assets/audio/sfx/page_turn_01.wav",
+            "static"
+        )
+    self.sfx.page_turn_01:setVolume(0.3)
+
     self.sfx.accept = 
         love.audio.newSource(
             "assets/audio/sfx/menu_accept_ascending.wav",

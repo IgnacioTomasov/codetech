@@ -1,7 +1,7 @@
 local TriggerArea = {}
 TriggerArea.__index = TriggerArea
 
-function TriggerArea:new(x, y, w, h, callback)
+function TriggerArea:new(x, y, w, h, callback, session, disableFlag)
 
     return setmetatable({
         x = x,
@@ -9,6 +9,8 @@ function TriggerArea:new(x, y, w, h, callback)
         w = w,
         h = h,
         callback = callback,
+        session = session,
+        disableFlag = disableFlag,
         triggered = false
     }, self)
 
@@ -16,7 +18,21 @@ end
 
 function TriggerArea:update(player)
 
+    if self.disableFlag
+        and self.session
+        and self.session:isFlagEnabled(self.disableFlag) then
+        return
+    end
+
     if self.triggered then
+        if not (
+            player.x >= self.x
+            and player.x <= self.x + self.w
+            and player.y >= self.y
+            and player.y <= self.y + self.h
+        ) then
+            self.triggered = false
+        end
         return
     end
 

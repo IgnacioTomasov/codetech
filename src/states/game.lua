@@ -86,16 +86,22 @@ function game:load()
 
     table.insert(
         self.triggers,
-        TriggerArea:new(1376 , 844, 160, 128,
-            OfficeAccessEvent:create(self.session)
+        TriggerArea:new(
+            1376 , 844, 160, 128,
+            OfficeAccessEvent:create(self.session),
+            self.session,
+            "contract_signed"
             )
     )
 
     -- Evento de acceso tras firmar contrato confidencialidad
     table.insert(
         self.triggers,
-        TriggerArea:new(1314 , 638, 32, 32,
-            BoxTextEvent:create(self.session)
+        TriggerArea:new(
+            1314 , 638, 32, 32,
+            BoxTextEvent:create(self.session),
+            self.session,
+            "contract_signed"
             )
     )
 
