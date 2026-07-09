@@ -2,6 +2,7 @@ local StateManager = require("src.managers.state_manager")
 local AudioManager = require("src.managers.audio_manager")
 local UI = require("src.ui.ui_constants")
 local DialogRepository = require("src.content.dialogs")
+local TextFormatter = require("src.content.text_formatter")
 
 local TextBoxState = {}
 
@@ -46,6 +47,25 @@ function TextBoxState:loadDialog(dialogId)
     self.pages = config.pages or {}
     self.currentPage = 1
     self.selectedOption = 1
+
+end
+
+function TextBoxState:getCurrentPageText()
+
+    local page = self.pages[self.currentPage]
+
+    local text = ""
+
+    if type(page) == "table" then
+        text = page.text or ""
+    else
+        text = page or ""
+    end
+
+    return TextFormatter:format(
+        self.session,
+        text
+    )
 
 end
 
@@ -155,14 +175,7 @@ function TextBoxState:draw()
     love.graphics.setFont(self.font)
 
     local page = self.pages[self.currentPage]
-
-    local pageText = ""
-
-    if type(page) == "table" then
-        pageText = page.text or ""
-    else
-        pageText = page or ""
-    end
+    local pageText = self:getCurrentPageText()
 
     love.graphics.printf(
         pageText,

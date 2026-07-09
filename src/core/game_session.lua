@@ -9,6 +9,7 @@ function GameSession:new()
         flags = GameFlags:new(),
         stats = {},
         clock = {},
+        player = {},
     }
 
     setmetatable(session, self)
@@ -30,6 +31,12 @@ function GameSession:initialize()
         day = 1,
         hour = 9,
         minute = 0,
+    }
+    
+    self.player = {
+        -- Nombre temporal. Más adelante será definido
+        -- por el jugador al comenzar una partida.
+        name = "Ignacio",
     }
     
     self.flags:set("office_access", false)
