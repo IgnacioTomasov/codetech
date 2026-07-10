@@ -15,6 +15,7 @@ local cameraControl = require("src.camera")
 
 local collisions = require("src.collisions")
 local StatusBar = require("src.ui.status_bar")
+local officeTriggers = require("src.triggers.office_triggers")
 
 local game = {}
 
@@ -71,41 +72,8 @@ function game:load()
     collisions.solve("Paredes-Puertas", "solid", self.world, self.map)
     collisions.solve("Mesas", "solid", self.world, self.map)
 
-    -- Eventos y gatillos:
-    local TriggerArea = require('src.triggers.trigger_area')
-    local SetFlagAction = require('src.actions.set_flag_action')
-    local ShowDialogAction = require('src.actions.show_dialog_action')
-
-    self.triggers = {}
-
-    table.insert(
-        self.triggers,
-        TriggerArea:new(
-            1376 , 844, 160, 128,
-            SetFlagAction:create(
-                self.session,
-                {
-                    contract_signed = true
-                }
-            ),
-            self.session,
-            "contract_signed"
-            )
-    )
-
-    -- Evento de acceso tras firmar contrato confidencialidad
-    table.insert(
-        self.triggers,
-        TriggerArea:new(
-            41*32 , 23*32, 32, 32,
-            ShowDialogAction:create(
-                self.session,
-                "la_llegada/control_acceso:contract_intro"
-            ),
-            self.session,
-            "contract_signed"
-            )
-    )
+    -- Eventos y gatillos del escenario
+    officeTriggers.load(self.session)
 
 end
 
@@ -125,9 +93,7 @@ function game:update(dt)
   self.statusBar:update(self.session)
 
   -- Verificar triggers
-  for _, trigger in ipairs(self.triggers) do
-    trigger:update(self.player)
-  end
+  officeTriggers.update(self.player)
 
 end
 
@@ -145,9 +111,7 @@ function game:draw()
 
     self.player:draw(false)
 
-    for _, trigger in ipairs(self.triggers) do
-        trigger:draw()
-    end
+    officeTriggers.draw()
     -- collisions.draw(true, self.world, self.player)
   self.cam:detach()
   self.statusBar:draw()
@@ -156,6 +120,8 @@ function game:draw()
 end
 
 function game:keypressed(key)
+
+    officeTriggers.keypressed(key)
 
     if key == "return" then
         local PauseState = require("src.states.pause")
