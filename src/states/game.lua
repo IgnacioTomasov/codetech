@@ -6,7 +6,6 @@ local bump = require("libraries/bump")
 
 local character = require("src.entities.character")
 local npc = require("src.entities.npc")
-local Door = require("src.entities.doors") 
 
 local inputControl = require("src.input")
 
@@ -46,8 +45,8 @@ function game:load()
     local restar_pixeles_x = 6 --numero de pixeles a reducir en x (solo en un lado) 
 
     self.player = character.new(
-        1350,
-        700,
+        44*32,
+        25*32,
         w_sprit-2*restar_pixeles_x, -- Ancho x del collider
         h_sprit/2, -- Altura y del collider
         -restar_pixeles_x, -- desplazamiento x respecto al collider
@@ -56,12 +55,6 @@ function game:load()
         'assets/Characters/char_test1.png'
     )
 
-    self.doors = {}
-
-    table.insert(self.doors, Door:new(self.world, 1376, 576, "contract_signed", "left"))
-    table.insert(self.doors, Door:new(self.world, 1408, 576, "contract_signed", "right"))
-    table.insert(self.doors, Door:new(self.world, 1472, 576, "contract_signed", "left"))
-    table.insert(self.doors, Door:new(self.world, 1504, 576, "contract_signed", "right"))
     self.cam = camera()
     -- zoom de cámara (1.0 = 100%)
     self.cameraZoom = 1.75
@@ -72,10 +65,11 @@ function game:load()
 
     -- Registrar collider físico en bump
     self.world:add(self.player, self.player.x, self.player.y, self.player.w, self.player.h)
-    -- npc.worldAdd(self.world, npcs)
+    npc.worldAdd(self.world)
 
     -- cargar colisiones desde Tiled
-    collisions.solve("Ventanas-Paredes-Puertas", "solid", self.world, self.map)
+    collisions.solve("Paredes-Puertas", "solid", self.world, self.map)
+    collisions.solve("Mesas", "solid", self.world, self.map)
 
     -- Eventos y gatillos:
     local TriggerArea = require('src.triggers.trigger_area')
@@ -103,7 +97,7 @@ function game:load()
     table.insert(
         self.triggers,
         TriggerArea:new(
-            1314 , 638, 32, 32,
+            41*32 , 23*32, 32, 32,
             ShowDialogAction:create(
                 self.session,
                 "la_llegada/control_acceso:contract_intro"
@@ -125,11 +119,8 @@ function game:update(dt)
 
   cameraControl.limitsCorrection(self.cam, self.map, self.player.x, self.player.y, self.cameraZoom,100)
   self.player:update(dt)
-  npc.update(dt)
+  npc.update(dt, self.session, self.player)
 
-  for _, door in ipairs(self.doors) do
-      door:update(dt,self.session, self.player)
-  end
   
   self.statusBar:update(self.session)
 
@@ -144,13 +135,13 @@ function game:draw()
 
   self.cam:attach()
     self.map:drawLayer(self.map.layers["Piso"])
-    self.map:drawLayer(self.map.layers["Ventanas-Paredes-Puertas"])
-    self.map:drawLayer(self.map.layers["Adornos-no-solidos"])
+    self.map:drawLayer(self.map.layers["Paredes-Puertas"])
+    self.map:drawLayer(self.map.layers["Ventanas"])
+    self.map:drawLayer(self.map.layers["Mesas"])
+    self.map:drawLayer(self.map.layers["Sillas"])
+    self.map:drawLayer(self.map.layers["Adornos"])
     npc.draw()
 
-    for _, door in ipairs(self.doors) do
-        door:draw()
-    end
 
     self.player:draw(false)
 

@@ -1,25 +1,26 @@
 local character = require("src.entities.character")
+local Pecera = require("src.entities.pecera")
+local Door = require("src.entities.doors")
 local inputControl = require("src.input")
 
 local npc = {} -- función a exportar
 local npcs = {} -- lista de npc y personajes
+local doors = {}
 
 -- local npcPositions = {
 --     {x = 760,  y = 320},
 --     {x = 1180, y = 240},
-
---     {x = 540,  y = 760},
---     {x = 920,  y = 680},
---     {x = 1360, y = 820},
-
---     {x = 340,  y = 1240},
---     {x = 840,  y = 1420},
---     {x = 1280, y = 1360},
---     {x = 1640, y = 1180},
 --     {x = 1640, y = 1640},
 -- }
 
 local npcPositions = {
+}
+
+local peceras = {
+    Pecera.new((37) * 32, (7) * 32, 'assets/Characters/pecera.png', 0.6),
+    Pecera.new((42) * 32, (7) * 32, 'assets/Characters/pecera.png', 0.7),
+    Pecera.new((38) * 32, (6) * 32, 'assets/Characters/pecera.png', 0.8),
+    Pecera.new((43) * 32, (6) * 32, 'assets/Characters/pecera.png', 0.65),
 }
 
 for _, pos in ipairs(npcPositions) do
@@ -41,6 +42,18 @@ function npc.worldAdd(world)
     for _, entity in ipairs(npcs) do
         world:add(entity, entity.x, entity.y, entity.w, entity.h)
     end
+
+    doors = {
+        -- Entrada
+        Door:new(world, 43 * 32, 21 * 32, "contract_signed", "left"),
+        Door:new(world, 44 * 32, 21 * 32, "contract_signed", "right"),
+        Door:new(world, 46 * 32, 21 * 32, "contract_signed", "left"),
+        Door:new(world, 47 * 32, 21 * 32, "contract_signed", "right"),
+
+        -- Oficina Hipo
+        Door:new(world, 44 * 32, 12 * 32, "contract_signed", "left"),
+        Door:new(world, 45 * 32, 12 * 32, "contract_signed", "right"),
+    }
 end
 
 function npc.move(dt, world, player)
@@ -53,15 +66,31 @@ function npc.move(dt, world, player)
     end
 end
 
-function npc.update(dt)
+function npc.update(dt, session, player)
     for _, entity in ipairs(npcs) do
         entity:update(dt)
+    end
+    
+    for _, pecera in ipairs(peceras) do
+        pecera:update(dt)
+    end
+
+    for _, door in ipairs(doors) do
+        door:update(dt, session, player)
     end
 end
 
 function npc.draw()
     for _, entity in ipairs(npcs) do
         entity:draw(false)
+    end
+    
+    for _, pecera in ipairs(peceras) do
+        pecera:draw()
+    end
+
+    for _, door in ipairs(doors) do
+        door:draw()
     end
 end
 
