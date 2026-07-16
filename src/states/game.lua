@@ -53,12 +53,12 @@ function game:load()
         -restar_pixeles_x, -- desplazamiento x respecto al collider
         -h_sprit/2 +2, -- desplazamiento y respecto al collider
         200, --Speed
-        'assets/Characters/char_test1.png'
+        'assets/Characters/char_test3.png'
     )
 
     self.cam = camera()
     -- zoom de cámara (1.0 = 100%)
-    self.cameraZoom = 1.75
+    self.cameraZoom = 2
     self.cam:zoom(self.cameraZoom)
 
     self.statusBar = StatusBar:new(self.session)
@@ -111,7 +111,7 @@ function game:draw()
 
     self.player:draw(false)
 
-    officeTriggers.draw()
+    -- officeTriggers.draw()
     -- collisions.draw(true, self.world, self.player)
   self.cam:detach()
   self.statusBar:draw()

@@ -50,9 +50,21 @@ function npc.worldAdd(world)
         Door:new(world, 46 * 32, 21 * 32, "contract_signed", "left"),
         Door:new(world, 47 * 32, 21 * 32, "contract_signed", "right"),
 
-        -- Oficina Hipo
+        -- Oficina C Hipo 
         Door:new(world, 44 * 32, 12 * 32, "contract_signed", "left"),
         Door:new(world, 45 * 32, 12 * 32, "contract_signed", "right"),
+
+        -- Oficina A
+        Door:new(world, 20 * 32, 12 * 32, "contract_signed", "left"),
+        Door:new(world, 21 * 32, 12 * 32, "contract_signed", "right"),
+
+        -- Oficina B
+        Door:new(world, 29 * 32, 12 * 32, "contract_signed", "left"),
+        Door:new(world, 30 * 32, 12 * 32, "contract_signed", "right"),
+
+        -- Oficina D
+        Door:new(world, 59 * 32, 12 * 32, "contract_signed", "left"),
+        Door:new(world, 60 * 32, 12 * 32, "contract_signed", "right"),
     }
 end
 

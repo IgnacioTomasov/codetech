@@ -99,7 +99,7 @@ function TextBoxState:keypressed(key)
 
     end
 
-    if key == "return" then
+    if key == "return" or key == "space" then
 
         local page = self.pages[self.currentPage]
 
@@ -135,6 +135,12 @@ function TextBoxState:keypressed(key)
             self.currentPage = self.currentPage + 1
             self.selectedOption = 1
         else
+            if type(page) == "table" and page.gotoDialog then
+                AudioManager:playSfx("page_turn_01")
+                self:loadDialog(page.gotoDialog)
+                return
+            end
+
             AudioManager:playSfx("accept")
             StateManager:pop()
         end

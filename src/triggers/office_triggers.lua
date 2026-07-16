@@ -38,6 +38,78 @@ function officeTriggers.load(session)
             contractIntroAction
         )
     )
+    
+    --  Placas de oficinas -- 
+
+    local officeAAction = ShowDialogAction:create(
+        session,
+        "proyectos/placas_oficinas:oficina_a"
+    )
+
+    local officeBAction = ShowDialogAction:create(
+        session,
+        "proyectos/placas_oficinas:oficina_b"
+    )
+
+    local officeCAction = ShowDialogAction:create(
+        session,
+        "proyectos/placas_oficinas:oficina_c"
+    )
+
+    local officeDAction = ShowDialogAction:create(
+        session,
+        "proyectos/placas_oficinas:oficina_d"
+    )
+
+     --  Libreros -- 
+
+    local officeLibIzqAction = ShowDialogAction:create(
+        session,
+        "la_llegada/primeras_pistas_en_la_biblioteca:librero_izquierdo_intro"
+    )
+
+
+    table.insert(
+        items,
+        InteractionArea:new(
+            18 * 32, 14 * 32, 32, 32,
+            officeAAction
+        )
+    )
+
+    table.insert(
+        items,
+        InteractionArea:new(
+            27 * 32, 14 * 32, 32, 32,
+            officeBAction
+        )
+    )
+
+    table.insert(
+        items,
+        InteractionArea:new(
+            42 * 32, 14 * 32, 32, 32,
+            officeCAction
+        )
+    )
+
+    table.insert(
+        items,
+        InteractionArea:new(
+            57 * 32, 14 * 32, 32, 32,
+            officeDAction
+        )
+    )
+
+    -- Libreros --
+
+    table.insert(
+        items,
+        InteractionArea:new(
+            62 * 32, 14 * 32, 64, 32,
+            officeLibIzqAction
+        )
+    )
 
 end
 

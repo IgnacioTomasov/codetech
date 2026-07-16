@@ -7,15 +7,15 @@ return {
         pages = {
 
             {
-                text = "Bienvenido a Codetech, {player_name}, lees sobre un papel digital instalado junto la entrada.\n"..
+                text = "Bienvenido a Codetech... puede leerse en la pantallita instalada junto la entrada.\n"..
                 "Antes de ingresar, se requiere que firmes el contrato de confidencialidad.   "
             },
             {
                 text = "Varias páginas de texto explican gravemente las consecuencias por divulgar información de la empresa.\n"..
-                "Se te hace un nudo en el estómago. Te sientes señalado, como si ya te estuvieran culpado por algo. Sin embargo, te calmas, confias en tu honestidad...",
+                "Se te hace un nudo en el estómago. Te sientes señalado, como si te estuvieran culpado por algo.",
             },
             {
-                text = "¿Serán así de estrictos en todos los trabajos? te preguntas...\n"..
+                text = "¿Por qué serán así de estrictos? te preguntas...\n"..
                 "Respiras hondo."
             },
             {
@@ -29,7 +29,6 @@ return {
                         flags = {
                             contract_signed = true,
                             office_access = true,
-                            tutorial_completed = true,
                         },
 
                     },
