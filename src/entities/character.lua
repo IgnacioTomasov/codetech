@@ -39,14 +39,44 @@ function character.new(x,y,w,h,spriteOffsetX,spriteOffsetY,speed,spriteName)
 
     self.animations = {}
 
-    self.spriteSheet = love.graphics.newImage(spriteName)
-    self.grid = anim8.newGrid(math.floor(self.spriteSheet:getWidth()/4),
-                              math.floor(self.spriteSheet:getHeight()/1), -- <-- recordar actualizar el número de rows en la hoja de sprits
+    -- El último parámetro acepta una ruta de imagen (como siempre) o una hoja
+    -- generada por PersonajeProcedural: { imagen, anchoFrame, altoFrame, filas }.
+    local anchoFrame, altoFrame, filas
+
+    if type(spriteName) == "table" then
+        self.spriteSheet = spriteName.imagen
+        anchoFrame = spriteName.anchoFrame
+        altoFrame = spriteName.altoFrame
+        filas = spriteName.filas or 4
+    else
+        self.spriteSheet = love.graphics.newImage(spriteName)
+        anchoFrame = math.floor(self.spriteSheet:getWidth() / 4)
+        altoFrame = math.floor(self.spriteSheet:getHeight() / 1) -- <-- recordar actualizar el número de rows en la hoja de sprits
+        filas = 1
+    end
+
+    self.grid = anim8.newGrid(anchoFrame,
+                              altoFrame,
                                 self.spriteSheet:getWidth(),
                                 self.spriteSheet:getHeight())
 
-    self.frames = self.grid('1-4', 1) 
-    self.animations.walk = anim8.newAnimation(self.frames, 0.1) 
+    if filas > 1 then
+        -- Hoja procedural: una fila por dirección (abajo, derecha, arriba, izquierda).
+        local nombres = {
+            [1] = "abajo",
+            [2] = "derecha",
+            [3] = "arriba",
+            [4] = "izquierda",
+        }
+        for fila, nombre in ipairs(nombres) do
+            self.animations[nombre] = anim8.newAnimation(self.grid('1-4', fila), 0.1)
+        end
+        self.animacionActual = "abajo"
+    else
+        self.frames = self.grid('1-4', 1)
+        self.animations.walk = anim8.newAnimation(self.frames, 0.1)
+        self.animacionActual = "walk"
+    end
 
     -- self.frames_2 = self.grid('1-4', 2) 
     -- self.animations.moveTail = anim8.newAnimation(self.frames_2, 0.1) 
@@ -80,13 +110,29 @@ function character:move(dx, dy, world)
     self.last_dx = dx
     self.last_dy = dy
 
+    -- Orientación (solo hojas procedurales con las 4 direcciones)
+    if self.animations.derecha then
+        if dx > 0 then
+            self.animacionActual = "derecha"
+        elseif dx < 0 then
+            self.animacionActual = "izquierda"
+        elseif dy > 0 then
+            self.animacionActual = "abajo"
+        elseif dy < 0 then
+            self.animacionActual = "arriba"
+        end
+    end
+
 end
 
 function character:update(dt)
 
 
     if self.isMoving then
-        self.animations.walk:update(dt)
+        local animacion = self.animations[self.animacionActual]
+        if animacion then
+            animacion:update(dt)
+        end
     end
 
 end
@@ -109,10 +155,13 @@ function character:draw(showCharRectangle)
 
     -- print(drawX, drawY)
     local function walk()
-            self.animations.walk:draw(
+        local animacion = self.animations[self.animacionActual]
+        if animacion then
+            animacion:draw(
             self.spriteSheet,
             drawX,
             drawY)
+        end
 
     end
     -- Recordar mantener la consistencia con la capa de update

@@ -5,6 +5,7 @@ local sti = require("libraries/sti")
 local bump = require("libraries/bump")
 
 local character = require("src.entities.character")
+local PersonajeProcedural = require("src.entities.procedural_character")
 local npc = require("src.entities.npc")
 
 local inputControl = require("src.input")
@@ -45,6 +46,19 @@ function game:load()
     local h_sprit = 48 --Alto original del png en un cuadro 
     local restar_pixeles_x = 6 --numero de pixeles a reducir en x (solo en un lado) 
 
+    -- Personaje procedural del jugador (ver src/entities/procedural_character.lua)
+    local plantillaJugador = PersonajeProcedural.nuevo({
+        paleta = {
+            piel = { 0.98, 0.85, 0.72 },
+            pelo = { 0.85, 0.83, 0.80 },
+            camisa = { 0.35, 0.55, 0.85 },
+            pantalon = { 0.20, 0.30, 0.60 },
+            zapatos = { 0.25, 0.15, 0.10 },
+        },
+        rostro = { ojos = "puntos", boca = "linea", cejas = "normales" },
+        accesorios = { maletin = false }, -- maletin = true lo reactiva (los NPC lo llevan al azar)
+    })
+
     self.player = character.new(
         44*32,
         25*32,
@@ -53,7 +67,7 @@ function game:load()
         -restar_pixeles_x, -- desplazamiento x respecto al collider
         -h_sprit/2 +2, -- desplazamiento y respecto al collider
         200, --Speed
-        'assets/Characters/char_test3.png'
+        plantillaJugador:obtenerHoja() -- hoja procedural horneada (4 direcciones x 4 frames)
     )
 
     self.cam = camera()

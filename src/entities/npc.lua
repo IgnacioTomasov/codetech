@@ -1,4 +1,5 @@
 local character = require("src.entities.character")
+local PersonajeProcedural = require("src.entities.procedural_character")
 local Pecera = require("src.entities.pecera")
 local Door = require("src.entities.doors")
 local inputControl = require("src.input")
@@ -23,16 +24,22 @@ local peceras = {
     Pecera.new((43) * 32, (6) * 32, 'assets/Characters/pecera.png', 0.65),
 }
 
-for _, pos in ipairs(npcPositions) do
+for i, pos in ipairs(npcPositions) do
     -- x/y = posición física
     -- w/h = collider lógico
+    -- Cada NPC recibe una semilla distinta: variante procedural determinista.
+    local plantilla = PersonajeProcedural.nuevo({ semilla = 100 + i })
+    local hoja = plantilla:obtenerHoja()
+
     local entity = character.new(
         pos.x,
         pos.y,
         24,
         14,
-        50,
-        'sprites/praga_grid.png'
+        -(hoja.anchoFrame - 24) / 2, -- centrado horizontal del sprite respecto al collider
+        -(hoja.altoFrame - 14) + 2,  -- pies del sprite alineados con la base del collider
+        60,
+        hoja
     )
 
     table.insert(npcs, entity)
