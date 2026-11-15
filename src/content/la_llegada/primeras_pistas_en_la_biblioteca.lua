@@ -25,7 +25,7 @@ return {
 
         pages = {
             {
-                text = "Las carpetas parecen estar acumulándose desde hace siglos."
+                text = "Pilas de carpetas. Algunas parecieran tener más de 20 años de antiguedad. "
 
             },
 
@@ -33,11 +33,11 @@ return {
                 text = "¿Dónde quisieras husmear?",
                 options = {
                     {
-                        text = "Explorar la carpeta antigua, la que tiene hojas de roneo.",
+                        text = "La carpeta antigua, la que tiene hojas de roneo.",
                         gotoDialog = "la_llegada/primeras_pistas_en_la_biblioteca:explorar_carpeta_antigua"
                     },
                     {
-                        text = "Explorar la carpeta de hojas sueltas.",
+                        text = "La carpeta de hojas sueltas.",
                         gotoDialog = "la_llegada/primeras_pistas_en_la_biblioteca:explorar_carpeta_hojas_sueltas"
                     },
                     {
@@ -61,10 +61,10 @@ return {
             {
                 text = "No hay nada que te llame la atención. Entonces ves palabras que te suenan familiar.",
                 options = {
-                    {
-                        text = "Proyecto Trigo.",
-                        gotoDialog = "la_llegada/primeras_pistas_en_la_biblioteca:explicacion_trigo"
-                    },
+                    -- {
+                    --     text = "Proyecto Trigo.",
+                    --     gotoDialog = "la_llegada/primeras_pistas_en_la_biblioteca:explicacion_trigo"
+                    -- },
                     {
                         text = "Proyecto Vida.",
                         gotoDialog = "la_llegada/primeras_pistas_en_la_biblioteca:explicacion_vida"
@@ -103,19 +103,19 @@ return {
         pages = {
             {
                 text = "Proyecto CALMA:\n"..
-                "¿Cuánto de una decisión es realmente nuestra?"
+                "¿Cuánto de una decisión es realmente suya?\nParecieran ser notas de una presentación."
             },
             {
-                text = "¿Puede esta establecerse en un laboratorio?\nLa respuesta es sí."
+                text = "¿Puede esta establecerse en un laboratorio?\nLa respuesta es... sí."
             },
             {
-                text = "CALMA estudia cómo pequeñas variaciones del entorno modifican el comportamiento. La intensidad de un sonido. La temperatura de una habitación. La demora de un ascensor."
+                text = "Calma es la promesa, el santogrial del comportamiento. La intensidad de un sonido. La temperatura de una habitación. La demora de un ascensor."
             },
             {
-                text = "La combinación correcta de estimulos pueden ser la llave para cambiar el curso de una decisión."
+                text = "La combinación correcta de estimulos son la llave de la manipulación."
             },
             {
-                text = "Comprender el ----------- es comprender la conducta."
+                text = "-- control --- -- ------ -- verdad - -- DINERO."
             },
             {
                 text = "El resto del documento ha sido completamente tachado.",
@@ -137,10 +137,10 @@ return {
             },
             { 
                 text = "Una imagen vale más que mil palabras.\n"..
-                "Un sentimiento vale una planilla de excel "
+                "Un sentimiento vence a la mejor planilla de excel. "
             },
             { 
-                text = "Por eso el proyecto VIDA es una mina de oro. Se busca ----------------- -- -----------\n ---------- -- ----------- --- -------------- --- "
+                text = "El proyecto VIDA es una mina de oro. Se busca ----------------- -- -----------\n ---------- -- ----------- --- -------------- --- "
             }
             ,
             {
