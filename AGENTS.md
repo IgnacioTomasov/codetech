@@ -20,6 +20,7 @@
   - `load` se ejecuta **una sola vez** por estado (flag `loaded`); `enter` en cada push.
   - Un estado con `isOverlay = true` hace que el estado de abajo se siga dibujando (así funciona el textbox sobre el juego).
 - Patrón flags (ver Readme): evento → modifica flags vía `session:setFlag(...)` → entidades consultan con `isFlagEnabled` y deciden su comportamiento. No manipular entidades directamente desde eventos. Ejemplo: `Door` (`src/entities/doors.lua`) se abre sola si `requiredFlag` está activo y el jugador está cerca.
+- **Guardado** (`src/core/save_system.lua`): serializa `GameSession` (flags/stats/clock/player) a un chunk Lua en `guardado.lua` (carpeta de guardado de LÖVE, `identity = "codetech"` en `conf.lua`). `SaveSystem.aplicar/cargarEn` limpia las flags previas de la sesión antes de restaurar. **No guarda la posición del jugador en el mapa**, solo el estado persistente. Integrado en la pausa ("Guardar partida") y el menú ("Continuar" solo aparece si hay guardado).
 
 ## Contenido narrativo (diálogos)
 

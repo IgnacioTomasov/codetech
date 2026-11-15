@@ -1,4 +1,6 @@
 local StateManager = require("src.managers.state_manager")
+local AudioManager = require("src.managers.audio_manager")
+local SaveSystem = require("src.core.save_system")
 
 local pause = {}
 
@@ -9,6 +11,7 @@ function pause:new(session)
     local state = {
         session = session,
         options = {
+            "Guardar partida",
             "Volver a jugar",
             "Salir al menú",
         },
@@ -68,11 +71,19 @@ function pause:keypressed(key)
 
     if key == "return" then
 
-        if self.selected == 1 then
+        local option = self.options[self.selected]
+
+        if option == "Guardar partida" then
+            SaveSystem.guardar(self.session)
+            AudioManager:playSfx("accept")
             StateManager:pop()
         end
 
-        if self.selected == 2 then
+        if option == "Volver a jugar" then
+            StateManager:pop()
+        end
+
+        if option == "Salir al menú" then
             local MenuState = require("src.states.menu")
 
             StateManager:switch(MenuState:new(self.session))

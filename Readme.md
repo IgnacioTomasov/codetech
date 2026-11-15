@@ -9,13 +9,13 @@ La idea es separar:
 Ideas para core
 
 Estado actual: `clock` y `stats` viven dentro de `game_session.lua`;
-`save_system` y `event_bus` aún no existen.
+`save_system` ya está implementado; `event_bus` aún no existe.
 
 core/
 ├── game_session.lua  ✓ (flags, stats, clock y player)
 ├── clock.lua         (por separar de game_session)
 ├── stats.lua         (por separar de game_session)
-├── save_system.lua   (pendiente)
+├── save_system.lua   ✓ (guarda/restaura la sesión)
 └── event_bus.lua     (pendiente)
 
 ## Arquitectura de Flags
@@ -374,6 +374,22 @@ self.player = {
 - Organizar los diálogos siguiendo la estructura narrativa del juego.
 - Mantener el contenido declarativo. Si una conversación necesita ejecutar lógica compleja, esa lógica debe implementarse mediante acciones y/o eventos, nunca dentro del archivo de contenido.
 
+
+## Guardado de la sesión
+
+`src/core/save_system.lua` serializa `GameSession` (flags, stats, clock, player)
+a texto Lua y lo restaura sobre una sesión nueva o existente.
+
+    SaveSystem.guardar(session)     -- escribe guardado.lua
+    SaveSystem.cargarEn(session)    -- restaura en la sesión dada (limpia flags previas)
+    SaveSystem.existeGuardado()     -- ¿hay guardado?
+
+En el juego: "Guardar partida" desde la pausa y "Continuar" en el menú
+(si existe guardado). El archivo se escribe en la carpeta de guardado de
+LÖVE (`identity = codetech` en conf.lua). No se guarda la posición del
+jugador en el mapa, solo el estado persistente de la sesión.
+
+---
 
 ## Ejecución de pruebas
 

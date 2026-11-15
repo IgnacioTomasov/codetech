@@ -4,18 +4,25 @@ local GameState = require("src.states.game")
 
 local menu = {}
 local version = require("src.version")
+local SaveSystem = require("src.core.save_system")
 
 local FONT_SIZE = 32
 local TITLE = "CodeTech"
 
 function menu:new(session)
 
+    local options = {}
+
+    if SaveSystem.existeGuardado() then
+        table.insert(options, "Continuar")
+    end
+
+    table.insert(options, "Jugar")
+    table.insert(options, "Salir")
+
     local state = {
         session = session,
-        options = {
-            "Jugar",
-            "Salir",
-        },
+        options = options,
         selected = 1,
     }
 
@@ -97,6 +104,12 @@ function menu:keypressed(key)
     if key == "return" then
 
         local option = self.options[self.selected]
+
+        if option == "Continuar" then
+            SaveSystem.cargarEn(self.session)
+            AudioManager:playSfx("accept")
+            StateManager:switch(GameState:new(self.session))
+        end
 
         if option == "Jugar" then
             AudioManager:playSfx("accept")
