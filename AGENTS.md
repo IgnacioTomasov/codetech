@@ -2,7 +2,11 @@
 
 ## Cómo ejecutar y verificar
 
-- Es un juego de LÖVE (Love2D). No hay build, tests, lint ni CI: la única verificación real es ejecutar el juego desde la raíz del repo: `love .` (requiere LÖVE instalado).
+- Es un juego de LÖVE (Love2D). No hay build, lint ni CI. La verificación tiene dos partes:
+  - Pruebas y validación de contenido (Lua puro, sin LÖVE; requiere `lua`): `lua tests/run.lua` y `lua tests/validador.lua`. Ambos salen con código distinto de 0 si hay fallos.
+  - Ejecución visual del juego desde la raíz del repo: `love .`.
+- `tests/run.lua` ejecuta automáticamente todos los `tests/*_test.lua` (cada archivo retorna una tabla `{ nombre_prueba = función }`; helpers disponibles: `igual(actual, esperado)`, `verdad(cond)`, `falso(cond)`).
+- El validador comprueba: estructura de diálogos en `src/content/`, que cada `gotoDialog` y cada `ShowDialogAction` resuelva contra `DialogRepository`, y que toda flag requerida (puertas en `npc.lua`, `TriggerArea` con `disableFlag`) se defina en alguna parte (opciones de diálogo, `SetFlagAction` o defaults de `GameSession`). **Ejecutarlo tras cualquier cambio de contenido o triggers**: es la única forma de detectar ids/flags mal escritos sin jugar.
 - La ventana es 1280x720 (`conf.lua`).
 - Atajo de debug: en `main.lua`, `START_DIALOG` permite abrir cualquier diálogo al arrancar (formato `"carpeta/archivo:id_dialogo"`), útil para probar contenido nuevo sin jugar hasta llegar a él.
 - Si un error de Lua rompe el juego, aparecerá la pantalla de error de LÖVE; los `assert` de `DialogRepository` son la primera pista típica (id de diálogo mal escrito).

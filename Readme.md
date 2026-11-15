@@ -8,12 +8,15 @@ La idea es separar:
 
 Ideas para core
 
+Estado actual: `clock` y `stats` viven dentro de `game_session.lua`;
+`save_system` y `event_bus` aún no existen.
+
 core/
-├── game_session.lua
-├── clock.lua
-├── stats.lua
-├── save_system.lua
-└── event_bus.lua
+├── game_session.lua  ✓ (flags, stats, clock y player)
+├── clock.lua         (por separar de game_session)
+├── stats.lua         (por separar de game_session)
+├── save_system.lua   (pendiente)
+└── event_bus.lua     (pendiente)
 
 ## Arquitectura de Flags
 
@@ -49,17 +52,21 @@ Principio fundamental:
 
 Ejemplo:
 
-    office_access = true
+    contract_signed = true
 
 significa:
 
-    El jugador puede usar la puerta.
+    El jugador puede usar las puertas del piso.
 
 NO significa:
 
     La puerta está abierta.
 
 La puerta decide por sí misma cuándo abrirse, cerrarse, reproducir audio, mover colliders o animarse.
+
+Nota de implementación: en la actualidad las puertas
+(src/entities/doors.lua) comprueban `contract_signed`, no `office_access`.
+Ambas flags se activan juntas al firmar el contrato.
 
 Evitar:
 
@@ -77,23 +84,19 @@ Preferir:
 
 Los diálogos son contenido separado del motor del videojuego. Se organizan en páginas, ofrecen opciones y, según la opción seleccionada, pueden modificar flags persistentes y redirigir hacia otro diálogo. Desde este punto de vista, los diálogos forman un grafo dirigido, donde cada nodo representa una conversación y cada opción puede conducir a otro nodo.
 
-Ejemplo  para dialogo de control de acceso:
+Ejemplo  para dialogo de control de acceso (src/content/la_llegada/control_acceso.lua):
 
 control_acceso:contract_intro
             │
     ┌───────┴────────┐
     │                │
-Aceptar         Leer contrato
-    │                │
-    ▼                ▼
- Fin        contract_details
-                    │
-          ┌─────────┴─────────┐
-          │                   │
-      Aceptar             Volver
-          │                   │
-          ▼                   │
-         Fin ◄────────────────┘
+ Aceptar         Rechazar
+ (flags)             │
+    │                ▼
+    ▼          contract_reject
+ Fin (flags)          │
+                      ▼
+                     Fin
 
 
 El flujo del sistema es:
@@ -146,6 +149,9 @@ src/content/
 
 Evitar archivos gigantes. Cada archivo debe contener únicamente conversaciones relacionadas entre sí.
 
+Nota: el contenido de los emails vive hoy en `src/core/email/email_repository.lua`.
+Si los emails pasan a ser narrativo, migrarlo a `src/content/`.
+
 ---
 
 ## Crear un diálogo
@@ -179,10 +185,14 @@ return {
                     },
 
                     {
-                        text = "Leer contrato",
+                        text = "Rechazar",
+
+                        flags = {
+                            contract_rejected = true,
+                        },
 
                         gotoDialog =
-                            "la_llegada/control_acceso:contract_details"
+                            "la_llegada/control_acceso:contract_reject"
 
                     }
 
@@ -293,6 +303,9 @@ Cuando existe `gotoDialog`:
 - se reinicia la conversación en la primera página del nuevo diálogo;
 - no se crea un nuevo estado.
 
+También puede declararse a nivel de página (`page.gotoDialog`): se ejecuta
+al confirmar la última página del diálogo actual.
+
 Esto permite construir conversaciones ramificadas y convergentes.
 
 ---
@@ -360,3 +373,16 @@ self.player = {
 - Utilizar `gotoDialog` para reutilizar conversaciones y evitar duplicar texto.
 - Organizar los diálogos siguiendo la estructura narrativa del juego.
 - Mantener el contenido declarativo. Si una conversación necesita ejecutar lógica compleja, esa lógica debe implementarse mediante acciones y/o eventos, nunca dentro del archivo de contenido.
+
+
+## Ejecución de pruebas
+
+Desde la raíz del repositorio:
+
+```sh
+lua tests/run.lua         # pruebas unitarias del motor
+lua tests/validador.lua   # consistencia de diálogos, triggers y flags
+```
+
+Ambos comandos terminan con código distinto de 0 si algo falla.
+El detalle de los comandos de verificación está en `AGENTS.md`.
